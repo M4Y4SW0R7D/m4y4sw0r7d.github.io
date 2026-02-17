@@ -32,5 +32,29 @@
 <body>
   <img id="paper" src="images/paper.png" alt="Paper">
   <img id="typewriter-bar" src="images/twfront.png" alt="Typewriter Bar">
+  
+  <script>
+
+    const paper = document.getElementById("paper");
+
+    let offset = -50;     // starting horizontal position
+    const step = -14;     // how far paper moves per letter
+    const maxOffset = 250; // stop point (adjust later)
+
+    document.addEventListener("keyup", function(event) {
+
+      // only react to letters, numbers, space
+      if (event.key.length === 1 || event.key === " ") {
+
+        if (offset < maxOffset) {
+          offset += step;
+        }
+
+        paper.style.transform = `translateX(calc(-50% - ${offset}px))`;
+      }
+
+    });
+
+  </script>
 </body>
 </html>

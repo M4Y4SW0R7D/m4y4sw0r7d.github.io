@@ -7,31 +7,30 @@
       margin: 0;
       background: black;
       height: 100vh;       /* full viewport */
-      overflow: hidden;    /* prevent scrolling */
+      overflow: hidden;    /* lock scrolling */
       position: relative;  /* for absolute positioning */
     }
 
     /* Paper image */
     #paper {
       position: absolute;
-      bottom: -1800px;                /* mostly off-screen */
-      left: 50%;                      /* center horizontally */
-      transform: translateX(-50%) scale(3); /* center and scale */
-      transform-origin: bottom center;      /* grow from bottom */
-      width: auto;                    /* natural width */
-      height: auto;                   /* natural height */
-      z-index: 0;                     /* behind typewriter */
+      bottom: -400px;      /* mostly off-screen */
+      left: 50%;           /* center horizontally */
+      transform: translateX(-50%); /* center */
+      width: 900px;        /* natural size or desired pixel width */
+      height: auto;        /* maintain aspect ratio */
+      z-index: 0;          /* behind typewriter */
     }
 
     /* Typewriter bar */
     .bottom-img {
       position: absolute;
-      bottom: 0;                      /* flush to bottom */
-      left: 50%;                      /* center horizontally */
+      bottom: 0;           /* flush to bottom */
+      left: 50%;
       transform: translateX(-50%);
-      width: auto;                     /* natural width */
-      height: auto;                    /* natural height */
-      z-index: 1;                      /* on top */
+      width: auto;         /* natural width */
+      height: auto;        /* natural height */
+      z-index: 1;          /* on top */
     }
   </style>
 </head>

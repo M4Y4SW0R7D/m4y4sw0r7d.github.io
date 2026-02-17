@@ -25,11 +25,13 @@
     /* Typewriter bar at bottom */
     .bottom-img {
       position: absolute;
-      bottom: 0;           /* sticks to bottom */
+      bottom: 0;           /* stick to bottom */
       left: 50%;
       transform: translateX(-50%);
-      width: auto;         /* keep natural width */
-      height: auto;        /* keep natural height */
+      width: initial;      /* use natural width */
+      height: initial;     /* use natural height */
+      max-width: none;
+      max-height: none;
       z-index: 1;          /* on top of paper */
     }
   </style>

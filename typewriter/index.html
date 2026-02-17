@@ -6,36 +6,37 @@
     body {
       margin: 0;
       background: black;
-      height: 100vh;       /* viewport height */
-      overflow: hidden;    /* lock scrolling */
+      height: 100vh;       /* full viewport */
+      overflow: hidden;    /* prevent scrolling */
       position: relative;  /* for absolute positioning */
     }
 
     /* Paper image */
     #paper {
       position: absolute;
-      bottom: -200px;              /* start mostly off-screen */
+      bottom: -400px;               /* mostly off-screen */
       left: 50%;
-      transform: translateX(-50%) scale(1); /* scale freely */
-      width: 600px;                /* control the visible size */
-      height: auto;                /* maintain aspect ratio */
-      z-index: 0;                  /* behind typewriter */
+      transform: translateX(-50%) scale(3); /* scale up 3x */
+      transform-origin: bottom center;     /* anchor scaling from bottom */
+      width: auto;                   /* natural width */
+      height: auto;                  /* keep aspect ratio */
+      z-index: 0;                     /* behind typewriter */
     }
 
-    /* Typewriter bar fixed at bottom */
+    /* Typewriter bar */
     .bottom-img {
       position: absolute;
-      bottom: 0;           /* stick to bottom */
+      bottom: 0;                     /* flush to bottom */
       left: 50%;
       transform: translateX(-50%);
-      width: auto;
-      height: auto;
-      z-index: 1;          /* on top of paper */
+      width: auto;                    /* natural width */
+      height: auto;                   /* natural height */
+      z-index: 1;                     /* on top */
     }
   </style>
 </head>
 <body>
-  <!-- Paper behind typewriter -->
+  <!-- Paper -->
   <img id="paper" src="images/paper.png" alt="Paper">
 
   <!-- Typewriter bar -->

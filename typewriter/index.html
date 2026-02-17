@@ -2,13 +2,16 @@
 <html>
   <head>
     <style>
-      div {
-        position: fixed;
-        bottom: 0;
-        right: 0;
-        width: 200px;
-        height: 100px;
-      }
+      #typewriter-bar {
+        position: fixed;   /* fix to viewport */
+        bottom: 0;         /* flush to bottom */
+        left: 50%;         /* center horizontally */
+        transform: translateX(-50%);
+        width: 100%;       /* stretch across page */
+        max-width: 1800px; /* optional cap */
+        height: auto;      /* maintain aspect ratio */
+        z-index: 1;
+    }
     </style>
   </head>
   <body bgcolor="black" >

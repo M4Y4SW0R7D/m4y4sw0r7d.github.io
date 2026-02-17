@@ -47,7 +47,6 @@ document.addEventListener("keyup", (event) => {
     if (offset < maxOffset) {
       offset += step;             // move left
     }
-    paper.style.transform = `translateX(calc(-50% - ${offset}px))`;
   }
     // move right for backspace
   if (event.key === "Backspace") {
@@ -55,6 +54,7 @@ document.addEventListener("keyup", (event) => {
       offset -= step;  // move right
     }
   }
+  paper.style.transform = `translateX(calc(-50% - ${offset}px))`;
 });
 
   </script>

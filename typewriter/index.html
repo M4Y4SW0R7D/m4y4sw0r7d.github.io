@@ -3,46 +3,57 @@
 <head>
   <title>Typewriter</title>
   <style>
+    /* Basic page setup */
     body {
       margin: 0;
       background: black;
       height: 100vh;       /* full viewport */
       overflow: hidden;    /* lock scrolling */
-      position: relative;  /* for absolute positioning */
+      position: relative;
     }
+
+    /* Container that shows only top of the paper */
     #paper-container {
-  position: absolute;
-  bottom: 0;                  /* container flush with bottom of viewport */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 800px;               /* same as paper width */
-  height: 150px;              /* how much of the paper you want visible initially */
-  overflow: hidden;           /* crop the rest */
-  z-index: 0;                 /* behind typewriter bar */
-    }
-    #paper {
-  position: absolute;
-  bottom: -600px;             /* mostly hidden inside container */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 800px;
-  height: auto;
-    }
-    .bottom-img {
       position: absolute;
-      bottom: 0;           /* flush to bottom */
+      bottom: 0;            /* container flush with bottom of viewport */
+      left: 50%;            /* center horizontally */
+      transform: translateX(-50%);
+      width: 800px;         /* same as paper width */
+      height: 200px;        /* how much of the paper is visible */
+      overflow: hidden;     /* crop rest of paper */
+      z-index: 0;           /* behind typewriter */
+    }
+
+    /* Paper itself inside container */
+    #paper {
+      position: absolute;
+      bottom: -600px;       /* start mostly off-screen */
       left: 50%;
       transform: translateX(-50%);
-      width: auto;         /* natural width */
-      height: auto;        /* natural height */
-      z-index: 1;          /* on top */
+      width: 800px;         /* actual paper width */
+      height: auto;         /* maintain aspect ratio */
+      z-index: 0;
+    }
+
+    /* Typewriter bar */
+    .bottom-img {
+      position: absolute;
+      bottom: 0;            /* flush to bottom */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;          /* span full viewport */
+      height: auto;         /* proportional height */
+      z-index: 1;           /* above paper */
     }
   </style>
 </head>
 <body>
+  <!-- Paper container crops the paper -->
   <div id="paper-container">
-  <img id="paper" src="images/paper.png" alt="Paper">
+    <img id="paper" src="images/paper.png" alt="Paper">
   </div>
+
+  <!-- Typewriter bar always at bottom -->
   <img src="images/twfront.png" alt="Typewriter Bar" class="bottom-img">
 </body>
 </html>

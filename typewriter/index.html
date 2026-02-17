@@ -22,15 +22,14 @@
 }
 
     .bottom-img {
-      display: block;
-      margin: auto;
       position: absolute;
-      bottom: 0;
+      bottom: 0;           /* sticks to bottom */
       left: 50%;
-      transform: translateX(-50%); /* center horizontally */
-      width: auto;        /* use natural width */
-      max-width: 1800px;   /* caps it at 600px */
-      height: auto;  
+      transform: translateX(-50%);
+      height: auto;        /* keep aspect ratio */
+      max-height: 25vh;    /* adjust so it fits viewport and doesn’t push bottom down */
+      width: auto;
+      z-index: 1; 
     }
   </style>
 </head>

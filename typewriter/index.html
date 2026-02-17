@@ -45,7 +45,7 @@ document.addEventListener("keyup", (event) => {
   // only letters, numbers, space
   if (event.key.length === 1 || event.key === " ") {
     if (offset < maxOffset) {
-      offset -= step;             // move left
+      offset += step;             // move left
     }
     paper.style.transform = `translateX(calc(-50% - ${offset}px))`;
   }

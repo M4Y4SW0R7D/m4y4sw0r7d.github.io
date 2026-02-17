@@ -6,33 +6,31 @@
     body {
       margin: 0;
       background: black;
-      position: relative;  /* needed for absolute positioning of images */
-      height: 100vh;       /* full viewport height */
-      overflow: hidden;    /* prevent scrolling */
+      position: relative;   /* parent for absolute positioning */
+      height: 100vh;        /* viewport height */
+      overflow: hidden;     /* locks scrolling */
     }
 
     /* Paper image behind typewriter */
     #paper {
       position: absolute;
-      bottom: -600px;        /* start mostly off-screen */
+      bottom: -500px;       /* starts mostly off-screen */
       left: 50%;
       transform: translateX(-50%);
-      width: 900px;          /* exact width */
-      height: auto;          /* keep aspect ratio */
-      z-index: 0;        /* behind typewriter */
+      width: 900px;         /* set the paper width */
+      height: auto;         /* maintain aspect ratio */
+      z-index: 0;           /* behind typewriter */
     }
 
-    /* Typewriter bar at bottom */
+    /* Typewriter bar at the bottom */
     .bottom-img {
       position: absolute;
-      bottom: 0;           /* stick to bottom */
+      bottom: 0;            /* sticks to bottom */
       left: 50%;
       transform: translateX(-50%);
-      width: initial;      /* use natural width */
-      height: initial;     /* use natural height */
-      max-width: none;
-      max-height: none;
-      z-index: 1;          /* on top of paper */
+      width: auto;          /* natural width */
+      height: auto;         /* natural height */
+      z-index: 1;           /* on top of paper */
     }
   </style>
 </head>

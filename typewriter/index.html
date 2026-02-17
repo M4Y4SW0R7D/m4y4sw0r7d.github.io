@@ -6,9 +6,20 @@
     body {
       margin: 0;
       background: black;
-      height: 100vh;      /* viewport height */
-      overflow: hidden;   /* lock scrolling */
-      position: relative; /* for absolute positioning */
+      height: 100vh;       /* viewport height */
+      overflow: hidden;    /* lock scrolling */
+      position: relative;  /* for absolute positioning */
+    }
+
+    /* Paper image */
+    #paper {
+      position: absolute;
+      bottom: -400px;      /* start mostly off-screen */
+      left: 50%;
+      transform: translateX(-50%) scale(1); /* center and scale */
+      width: 600px;        /* base width, scale can adjust */
+      height: auto;
+      z-index: 0;          /* behind typewriter */
     }
 
     /* Typewriter bar fixed at bottom */
@@ -17,13 +28,16 @@
       bottom: 0;           /* stick to bottom */
       left: 50%;
       transform: translateX(-50%);
-      width: auto;         /* natural width */
-      height: auto;        /* natural height */
-      z-index: 1;          /* top layer */
+      width: auto;
+      height: auto;
+      z-index: 1;          /* on top of paper */
     }
   </style>
 </head>
 <body>
+  <!-- Paper behind typewriter -->
+  <img id="paper" src="images/paper.png" alt="Paper">
+
   <!-- Typewriter bar -->
   <img src="images/twfront.png" alt="Typewriter Bar" class="bottom-img">
 </body>

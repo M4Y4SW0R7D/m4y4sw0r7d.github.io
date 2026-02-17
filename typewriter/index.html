@@ -14,15 +14,13 @@
     /* Paper image */
     #paper {
       position: absolute;
-      bottom: -200px;      /* mostly off-screen */
-      left: 50%;           /* center horizontally */
-      transform: translateX(-50%); /* center */
-      width: 900px;        /* natural size or desired pixel width */
-      height: auto;        /* maintain aspect ratio */
-      z-index: 0;          /* behind typewriter */
+      bottom: -600px;             /* paper starts mostly off-screen inside container */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: auto;/* behind typewriter */
     }
 
-    /* Typewriter bar */
     .bottom-img {
       position: absolute;
       bottom: 0;           /* flush to bottom */
@@ -35,10 +33,9 @@
   </style>
 </head>
 <body>
-  <!-- Paper -->
+  <div id="paper-container">
   <img id="paper" src="images/paper.png" alt="Paper">
-
-  <!-- Typewriter bar -->
+  </div>
   <img src="images/twfront.png" alt="Typewriter Bar" class="bottom-img">
 </body>
 </html>

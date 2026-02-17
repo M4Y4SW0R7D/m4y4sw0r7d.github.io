@@ -1,23 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <title>Typewriter</title>
   <style>
     body {
-    margin: 0;
-    background: black;
-  }
-  .bottom-img {
-    display: block;
-    margin: auto;
-    position: absolute;
-    bottom: 0;
-    width: 80%;
-    max-width: 600px;
-  }
-</style>
+      margin: 0;
+      background: black;
+      position: relative; /* needed for absolute positioning of image */
+      height: 100vh;      /* full viewport height */
+    }
+
+    .bottom-img {
+      display: block;
+      margin: auto;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%); /* center horizontally */
+      width: 80%;
+      max-width: 600px;
+    }
   </style>
 </head>
 <body>
-    <img src="images/twfront.png" alt="twfront" class="bottom-img">
+  <img src="images/twfront.png" alt="twfront" class="bottom-img">
 </body>
 </html>

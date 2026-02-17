@@ -13,13 +13,13 @@
 
     /* Paper image */
     #paper {
-  position: absolute;
-  bottom: -200px;
-  left: 50%;
-  transform: translateX(-50%) scale(3); /* scale freely */
-  width: auto;          /* natural width */
-  height: auto;
-  z-index: 0;
+      position: absolute;
+      bottom: -200px;              /* start mostly off-screen */
+      left: 50%;
+      transform: translateX(-50%) scale(1); /* scale freely */
+      width: 600px;                /* control the visible size */
+      height: auto;                /* maintain aspect ratio */
+      z-index: 0;                  /* behind typewriter */
     }
 
     /* Typewriter bar fixed at bottom */

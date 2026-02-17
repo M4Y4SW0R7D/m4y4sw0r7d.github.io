@@ -14,22 +14,23 @@
     /* Container showing only top of the paper */
     #paper-container {
       position: absolute;
-      bottom: 0;
+      bottom: 0;                /* flush with bottom of viewport */
       left: 50%;
       transform: translateX(-50%);
-      width: 800px;
-      height: 150px;      /* only top part visible */
-      overflow: hidden;
+      width: 800px;             /* matches paper width */
+      height: 150px;            /* only top portion visible */
+      overflow: hidden;         /* crop the rest */
       z-index: 0;
+      background: transparent;
     }
 
     /* Paper inside container */
     #paper {
       position: absolute;
-      top: 0;             /* start at top of container */
+      bottom: -750px;           /* push most of paper below container */
       left: 50%;
       transform: translateX(-50%);
-      width: 800px;
+      width: 800px;             /* natural width */
       height: auto;
       z-index: 0;
     }
@@ -40,7 +41,7 @@
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 100%;
+      width: 100%;              /* stretch full width */
       max-width: 1800px;
       height: auto;
       z-index: 1;

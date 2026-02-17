@@ -14,12 +14,12 @@
     /* Paper image behind typewriter */
     #paper {
       position: absolute;
-      bottom: -600px;      /* start mostly offscreen */
-      left: 50%;
-      transform: translateX(-50%);
-      width: 900px;        /* paper width */
-      height: auto;
-      z-index: 0;          /* behind typewriter */
+  bottom: -600px;        /* start mostly off-screen */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;          /* exact width */
+  height: auto;          /* keep aspect ratio */
+  z-index: 0;        /* behind typewriter */
     }
 
     /* Typewriter bar at bottom */

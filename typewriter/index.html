@@ -1,20 +1,29 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <style>
-      #typewriter-bar {
-        position: fixed;   /* fix to viewport */
-        bottom: 0;         /* flush to bottom */
-        left: 50%;         /* center horizontally */
-        transform: translateX(-50%);
-        width: 100%;       /* stretch across page */
-        max-width: 1800px; /* optional cap */
-        height: auto;      /* maintain aspect ratio */
-        z-index: 1;
+<head>
+  <title>Typewriter</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      height: 100vh;
+      overflow: hidden;
     }
-    </style>
-  </head>
-  <body bgcolor="black" >
-      <img src="images/twfront.png" alt="Typewriter Bar" class="bottom-img">
-</body> 
+
+    /* Fixed image at bottom */
+    #typewriter-bar {
+      position: fixed;   /* fix to viewport */
+      bottom: 0;         /* flush to bottom */
+      left: 50%;         /* center horizontally */
+      transform: translateX(-50%);
+      width: 100%;       /* stretch across page */
+      max-width: 1800px; /* optional cap */
+      height: auto;      /* maintain aspect ratio */
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <img id="typewriter-bar" src="images/twfront.png" alt="Typewriter Bar">
+</body>
 </html>

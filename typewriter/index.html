@@ -10,17 +10,24 @@
       overflow: hidden;    /* lock scrolling */
       position: relative;  /* for absolute positioning */
     }
-
-    /* Paper image */
+    #paper-container {
+  position: absolute;
+  bottom: 0;                  /* container flush with bottom of viewport */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;               /* same as paper width */
+  height: 150px;              /* how much of the paper you want visible initially */
+  overflow: hidden;           /* crop the rest */
+  z-index: 0;                 /* behind typewriter bar */
+}
     #paper {
-      position: absolute;
-      bottom: -900px;             /* paper starts mostly off-screen inside container */
-      left: 50%;
-      transform: translateX(-50%);
-      width: 800px;
-      height: auto;/* behind typewriter */
-    }
-
+  position: absolute;
+  bottom: -600px;             /* mostly hidden inside container */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: auto;
+}
     .bottom-img {
       position: absolute;
       bottom: 0;           /* flush to bottom */

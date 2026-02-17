@@ -35,25 +35,21 @@
   
   <script>
 
-    const paper = document.getElementById("paper");
+const paper = document.getElementById("paper");
 
-    let offset = -50;     // starting horizontal position
-    const step = 14;     // how far paper moves per letter
-    const maxOffset = 278; // stop point (adjust later)
+let offset = 0;      // start at zero so first key moves correctly
+const step = 14;     // move 14px per keystroke
+const maxOffset = 250; // limit movement (adjust as needed)
 
-    document.addEventListener("keyup", function(event) {
-
-      // only react to letters, numbers, space
-      if (event.key.length === 1 || event.key === " ") {
-
-        if (offset < maxOffset) {
-          offset += step;
-        }
-
-        paper.style.transform = `translateX(calc(-50% - ${offset}px))`;
-      }
-
-    });
+document.addEventListener("keyup", (event) => {
+  // only letters, numbers, space
+  if (event.key.length === 1 || event.key === " ") {
+    if (offset < maxOffset) {
+      offset += step;             // move left
+    }
+    paper.style.transform = `translateX(calc(-50% - ${offset}px))`;
+  }
+});
 
   </script>
 </body>

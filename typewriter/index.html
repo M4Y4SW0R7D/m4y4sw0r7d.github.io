@@ -8,6 +8,16 @@
       position: relative; /* needed for absolute positioning of image */
       height: 100vh;      /* full viewport height */
     }
+    
+    #paper {
+  position: absolute;
+  bottom: -400px;      /* start mostly offscreen */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;        /* size of the paper */
+  height: auto;
+  z-index: 0;          /* behind typewriter */
+}
 
     .bottom-img {
       display: block;
@@ -23,6 +33,7 @@
   </style>
 </head>
 <body>
+    <img id="paper" src="images/paper.png" alt="paper">
   <img src="images/twfront.png" alt="twfront" class="bottom-img">
 </body>
 </html>

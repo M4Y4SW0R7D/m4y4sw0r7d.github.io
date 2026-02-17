@@ -1,39 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <title>Typewriter</title>
   <style>
     body {
       margin: 0;
       background: black;
-      position: relative; /* needed for absolute positioning of image */
-      height: 100vh;      /* full viewport height */
-      overflow: hidden; 
+      position: relative;  /* needed for absolute positioning of images */
+      height: 100vh;       /* full viewport height */
+      overflow: hidden;    /* prevent scrolling */
     }
-    
+
+    /* Paper image behind typewriter */
     #paper {
       position: absolute;
       bottom: -400px;      /* start mostly offscreen */
       left: 50%;
       transform: translateX(-50%);
-      width: 900px;         /* paper width */
-      height: 40vh;
-      z-index: 0;           /* behind typewriter */
+      width: 900px;        /* paper width */
+      height: auto;
+      z-index: 0;          /* behind typewriter */
     }
 
+    /* Typewriter bar at bottom */
     .bottom-img {
-  position: absolute;
-  bottom: 0;           /* sticks to bottom */
-  left: 50%;
-  transform: translateX(-50%);
-  width: auto;         /* keep natural width */
-  height: auto;        /* keep natural height */
-  z-index: 1;
-}
+      position: absolute;
+      bottom: 0;           /* sticks to bottom */
+      left: 50%;
+      transform: translateX(-50%);
+      width: auto;         /* keep natural width */
+      height: auto;        /* keep natural height */
+      z-index: 1;          /* on top of paper */
     }
   </style>
 </head>
 <body>
+  <!-- Paper first so it's behind -->
   <img id="paper" src="images/paper.png" alt="paper">
+
+  <!-- Typewriter bar -->
   <img src="images/twfront.png" alt="twfront" class="bottom-img">
 </body>
 </html>

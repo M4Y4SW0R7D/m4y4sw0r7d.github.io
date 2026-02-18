@@ -92,7 +92,7 @@
       if (event.key.length === 1 || event.key === " ") {
         const letter = document.createElement("span");
         letter.textContent = event.key;
-        letter.style.left = offset + "px";  // stays in typing spot
+        letter.style.left = "0px";  
         textLayer.appendChild(letter);
       }
     });

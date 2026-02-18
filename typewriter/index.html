@@ -9,9 +9,10 @@
       overflow: hidden;
     }
 
+    /* Paper container fixed on screen, moves left/right */
     #paper-container {
       position: fixed;
-      bottom: -200px;
+      bottom: -200px;       /* mostly offscreen initially */
       left: 50%;
       transform: translateX(-50%);
       width: 800px;
@@ -19,20 +20,25 @@
       z-index: 0;
     }
 
+    /* Paper image */
     #paper {
       width: 800px;
+      height: auto;
       display: block;
     }
 
+    /* Text stamped on paper */
     #paper-text {
-      position: absolute;
+      position: absolute;    /* relative to paper container */
       top: 0;
       left: 0;
       font-family: "Courier New", monospace;
       font-size: 20px;
+      color: black;          /* make visible on your paper */
       white-space: nowrap;
     }
 
+    /* Typewriter bar fixed at bottom */
     #typewriter-bar {
       position: fixed;
       bottom: 0;
@@ -44,25 +50,31 @@
       z-index: 1;
     }
 
+    /* Typing spot - invisible, fixed over typewriter bar */
     #typing-spot {
       position: fixed;
-      bottom: 40px;   /* above typewriter bar */
-      left: 50%;      /* center horizontally */
-      width: 14px;    /* one letter width */
-      height: 20px;   /* letter height */
+      bottom: 40px;        /* adjust to sit above bar */
+      left: 50%;
+      width: 14px;         /* width of one letter */
+      height: 20px;        /* letter height */
       transform: translateX(-50%);
       z-index: 2;
-      pointer-events: none; /* ignore clicks */
+      pointer-events: none; /* ignore mouse */
     }
   </style>
 </head>
 <body>
+
+  <!-- Paper and text -->
   <div id="paper-container">
     <img id="paper" src="images/paper.png" alt="Paper">
     <div id="paper-text"></div>
   </div>
 
+  <!-- Typewriter bar -->
   <img id="typewriter-bar" src="images/twfront.png" alt="Typewriter Bar">
+
+  <!-- Invisible typing spot -->
   <div id="typing-spot"></div>
 
   <script>
@@ -70,12 +82,12 @@
     const textLayer = document.getElementById("paper-text");
     const typingSpot = document.getElementById("typing-spot");
 
+    // Paper movement
     let offset = 0;
     const step = 14;
     const maxLeft = 360;
     const maxRight = 240;
 
-    // Move paper on key release
     document.addEventListener("keyup", (event) => {
       if (event.key.length === 1 || event.key === " ") {
         if (offset < maxLeft) offset += step;
@@ -86,17 +98,15 @@
       paper.style.transform = `translateX(calc(-50% - ${offset}px))`;
     });
 
-    // Stamp letters at fixed typing spot but inside paper
+    // Typing letters
     document.addEventListener("keydown", (event) => {
       if (event.key.length === 1 || event.key === " ") {
         const letter = document.createElement("span");
         letter.textContent = event.key;
 
-        // Get typing spot position on screen
+        // Calculate position relative to paper
         const spotRect = typingSpot.getBoundingClientRect();
         const paperRect = paper.getBoundingClientRect();
-
-        // Calculate coordinates relative to paper
         const relX = spotRect.left - paperRect.left;
         const relY = spotRect.top - paperRect.top;
 
@@ -106,9 +116,10 @@
 
         textLayer.appendChild(letter);
 
-        event.preventDefault();
+        event.preventDefault(); // stop scrolling / default typing
       }
     });
   </script>
+
 </body>
 </html>

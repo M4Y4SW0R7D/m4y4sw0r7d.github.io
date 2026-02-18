@@ -8,15 +8,26 @@
       height: 100vh;
       overflow: hidden;
     }
+
+    /* Paper container */
     #paper-container {
       position: fixed;    
       bottom: -600px;     
       left: 50%;
       transform: translateX(-50%);
-      width: 120px;
+      width: 800px;       /* matches paper image width */
       height: auto;
       z-index: 0;          
     }
+
+    /* Paper image */
+    #paper {
+      width: 800px;       /* keep natural width */
+      height: auto;
+      display: block;
+    }
+
+    /* Typewriter bar */
     #typewriter-bar {
       position: fixed;   
       bottom: 0;         
@@ -27,58 +38,64 @@
       height: auto;      
       z-index: 1;
     }
-      #paper-text {
-        position: absolute;
-        top: 120px;     /* adjust until it sits where the roller is */
-        left: 80px;     /* gives you a margin */
-        font-family: "Courier New", monospace;
-        font-size: 20px;
-        white-space: nowrap; /* prevents wrapping */
+
+    /* Text layer anchored to paper */
+    #paper-text {
+      position: relative; /* letters absolutely positioned inside here */
+      top: 120px;         /* adjust until it sits at roller */
+      left: 140px;        /* margin from left edge */
+      width: 520px;       /* optional, just keeps layout sane */
+      height: 40px;
+    }
+
+    /* Each typed letter */
+    #paper-text span {
+      position: absolute;
+      top: 0;
+      font-family: "Courier New", monospace;
+      font-size: 20px;
     }
   </style>
 </head>
 <body>
-<div id="paper-container">
-    <img id="paper" src="images/paper.png" alt="Paper">
-    <div id="paper-text"></div>
-</div>   
+  <!-- Paper container -->
+  <div id="paper-container">
+      <img id="paper" src="images/paper.png" alt="Paper">
+      <div id="paper-text"></div>
+  </div>   
 
-<img id="typewriter-bar" src="images/twfront.png" alt="Typewriter Bar">
+  <!-- Typewriter bar -->
+  <img id="typewriter-bar" src="images/twfront.png" alt="Typewriter Bar">
   
   <script>
     const paper = document.getElementById("paper-container");
+    const textLayer = document.getElementById("paper-text");
 
-let offset = 0;      // start at zero so first key moves correctly
-const step = 14;     // move 14px per keystroke
-const maxLeft = 360;  // max left movement
-const maxRight = 240; // max right movement
+    let offset = 0;      // paper offset for movement
+    const step = 14;     // pixels per keystroke
+    const maxLeft = 360;  // max movement left
+    const maxRight = 240; // max movement right
 
-document.addEventListener("keyup", (event) => {
-  // move left for letters, numbers, space
-  if (event.key.length === 1 || event.key === " ") {
-    if (offset < maxLeft) {
-      offset += step; // move left
-    }
-  }
+    // Move paper on key release
+    document.addEventListener("keyup", (event) => {
+      if (event.key.length === 1 || event.key === " ") {
+        if (offset < maxLeft) offset += step;
+      }
+      if (event.key === "Backspace") {
+        if (offset > -maxRight) offset -= step;
+      }
+      paper.style.transform = `translateX(calc(-50% - ${offset}px))`;
+    });
 
-  // move right for backspace
-  if (event.key === "Backspace") {
-    if (offset > -maxRight) {
-      offset -= step; // move right
-    }
-  }
-
-  // apply movement
-  paper.style.transform = `translateX(calc(-50% - ${offset}px))`;
-});
-    const letter = document.createElement("span");
-letter.textContent = event.key;
-
-letter.style.position = "absolute";
-letter.style.left = offset + "px";
-letter.style.top = "0px";
-
-textLayer.appendChild(letter);
+    // Create letters absolutely positioned inside textLayer
+    document.addEventListener("keydown", (event) => {
+      if (event.key.length === 1 || event.key === " ") {
+        const letter = document.createElement("span");
+        letter.textContent = event.key;
+        letter.style.left = offset + "px";  // stays in typing spot
+        textLayer.appendChild(letter);
+      }
+    });
   </script>
 </body>
 </html>

@@ -11,8 +11,8 @@
 
     /* Paper container */
     #paper-container {
-      position: fixed;    
-      bottom: -200px;       /* mostly off-screen */
+      position: fixed;
+      bottom: -200px;     
       left: 50%;
       transform: translateX(-50%);
       width: 800px;
@@ -29,24 +29,35 @@
 
     /* Letters stamped on paper */
     #paper-text {
-      position: absolute;   /* absolute relative to paper container */
-      top: 120px;           /* adjust to align with typewriter roller */
-      left: 80px;           /* margin from left edge */
+      position: absolute;  /* relative to paper container */
+      top: 120px;
+      left: 80px;
       font-family: "Courier New", monospace;
       font-size: 20px;
-      white-space: nowrap;   /* prevent wrapping */
+      white-space: nowrap;
     }
 
     /* Typewriter bar */
     #typewriter-bar {
-      position: fixed;   
-      bottom: 0;         
-      left: 50%;        
+      position: fixed;
+      bottom: 0;
+      left: 50%;
       transform: translateX(-50%);
-      width: 100%;      
-      max-width: 1800px; 
-      height: auto;      
+      width: 100%;
+      max-width: 1800px;
+      height: auto;
       z-index: 1;
+    }
+
+    /* Typing spot (invisible, fixed) */
+    #typing-spot {
+      position: fixed;
+      bottom: 40px;  /* adjust to sit above bar */
+      left: 50%;
+      width: 14px;   /* width of one letter */
+      height: 20px;  /* same as font size */
+      transform: translateX(-50%);
+      z-index: 2;
     }
   </style>
 </head>
@@ -60,16 +71,19 @@
   <!-- Typewriter bar -->
   <img id="typewriter-bar" src="images/twfront.png" alt="Typewriter Bar">
 
+  <!-- Typing area (invisible) -->
+  <div id="typing-spot"></div>
+
   <script>
     const paper = document.getElementById("paper-container");
     const textLayer = document.getElementById("paper-text");
 
-    let offset = 0;      // paper movement
-    const step = 14;     // pixels per keystroke
-    const maxLeft = 360;  // max left movement
-    const maxRight = 240; // max right movement
+    let offset = 0;        // paper offset
+    const step = 14;       // pixels per letter
+    const maxLeft = 360;
+    const maxRight = 240;
 
-    // Move paper on key release
+    // Paper movement (keyup)
     document.addEventListener("keyup", (event) => {
       if (event.key.length === 1 || event.key === " ") {
         if (offset < maxLeft) offset += step;
@@ -80,15 +94,21 @@
       paper.style.transform = `translateX(calc(-50% - ${offset}px))`;
     });
 
-    // Stamp letters on paper
+    // Typing letters (keydown)
     document.addEventListener("keydown", (event) => {
       if (event.key.length === 1 || event.key === " ") {
         const letter = document.createElement("span");
         letter.textContent = event.key;
+
+        // Stamp letters at fixed position relative to paper
         letter.style.position = "absolute";
-        letter.style.left = "0px";  // always stamped at same spot
+        letter.style.left = "0px";
         letter.style.top = "0px";
+
         textLayer.appendChild(letter);
+
+        // prevent default typing in browser
+        event.preventDefault();
       }
     });
   </script>

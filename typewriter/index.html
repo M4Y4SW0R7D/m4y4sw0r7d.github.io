@@ -30,7 +30,7 @@
     #paper-text {
       position: absolute;   /* relative to paper container */
       top: 100px;           /* adjust so letters appear above typewriter bar */
-      left: 20px;           /* incremented by step for each letter */
+      left: 0px;            /* will be computed dynamically */
       font-family: "Courier New", monospace;
       font-size: 22px;
       color: black;
@@ -79,11 +79,12 @@
   <script>
     const paper = document.getElementById("paper-container");
     const textLayer = document.getElementById("paper-text");
+    const typingSpot = document.getElementById("typing-spot");
+
     const step = 14;       // pixels per keystroke
     const maxLeft = 360;
     const maxRight = 240;
     let offset = 0;         // paper offset left/right
-    let nextLetterX = 0;    // where to stamp next letter inside paper
 
     // Move paper on key release
     document.addEventListener("keyup", (event) => {
@@ -102,20 +103,24 @@
         const letter = document.createElement("span");
         letter.textContent = event.key;
         letter.style.position = "absolute";
-        letter.style.left = nextLetterX + "px";
-        letter.style.top = "0px";
-        textLayer.appendChild(letter);
 
-        nextLetterX += step;  // move typing position for next letter
+        // Compute left so it appears at the fixed typing spot
+        const paperRect = paper.getBoundingClientRect();
+        const spotRect = typingSpot.getBoundingClientRect();
+        const letterLeft = spotRect.left - paperRect.left;
+        letter.style.left = letterLeft + "px";
+        letter.style.top = "0px";
+
+        textLayer.appendChild(letter);
 
         event.preventDefault(); // prevent default scrolling
       }
+
       // Backspace removes last letter
       if (event.key === "Backspace") {
         const letters = textLayer.querySelectorAll("span");
         if (letters.length > 0) {
           letters[letters.length - 1].remove();
-          nextLetterX -= step;
         }
       }
     });

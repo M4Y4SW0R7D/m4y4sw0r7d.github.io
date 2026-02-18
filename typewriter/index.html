@@ -9,10 +9,10 @@
       overflow: hidden;
     }
 
-    /* Paper container fixed on screen, moves left/right */
+    /* Paper container that moves with key presses */
     #paper-container {
       position: fixed;
-      bottom: -400px;       /* mostly offscreen initially */
+      bottom: -200px;    /* mostly offscreen initially */
       left: 50%;
       transform: translateX(-50%);
       width: 800px;
@@ -20,21 +20,20 @@
       z-index: 0;
     }
 
-    /* Paper image */
     #paper {
       width: 800px;
       height: auto;
       display: block;
     }
 
-    /* Text stamped on paper */
+    /* Letters stamped onto paper */
     #paper-text {
-      position: absolute;    /* relative to paper container */
-      top: 0;
-      left: 0;
+      position: absolute;   /* relative to paper container */
+      top: 100px;           /* adjust so letters appear above typewriter bar */
+      left: 0;              /* incremented by step for each letter */
       font-family: "Courier New", monospace;
       font-size: 20px;
-      color: black;          /* make visible on your paper */
+      color: black;
       white-space: nowrap;
     }
 
@@ -50,22 +49,22 @@
       z-index: 1;
     }
 
-    /* Typing spot - invisible, fixed over typewriter bar */
+    /* Typing spot - invisible fixed box over typewriter bar */
     #typing-spot {
       position: fixed;
-      bottom: 40px;        /* adjust to sit above bar */
+      bottom: 40px;       /* adjust to line up with roller */
       left: 50%;
-      width: 14px;         /* width of one letter */
-      height: 20px;        /* letter height */
+      width: 14px;        /* width of one letter */
+      height: 20px;       /* letter height */
       transform: translateX(-50%);
-      z-index: 2;
       pointer-events: none; /* ignore mouse */
+      z-index: 2;
     }
   </style>
 </head>
 <body>
 
-  <!-- Paper and text -->
+  <!-- Paper container -->
   <div id="paper-container">
     <img id="paper" src="images/paper.png" alt="Paper">
     <div id="paper-text"></div>
@@ -80,14 +79,13 @@
   <script>
     const paper = document.getElementById("paper-container");
     const textLayer = document.getElementById("paper-text");
-    const typingSpot = document.getElementById("typing-spot");
-
-    // Paper movement
-    let offset = 0;
-    const step = 14;
+    const step = 14;       // pixels per keystroke
     const maxLeft = 360;
     const maxRight = 240;
+    let offset = 0;         // paper offset left/right
+    let nextLetterX = 0;    // where to stamp next letter inside paper
 
+    // Move paper on key release
     document.addEventListener("keyup", (event) => {
       if (event.key.length === 1 || event.key === " ") {
         if (offset < maxLeft) offset += step;
@@ -98,28 +96,29 @@
       paper.style.transform = `translateX(calc(-50% - ${offset}px))`;
     });
 
-    // Typing letters
+    // Stamp letters onto paper on keydown
     document.addEventListener("keydown", (event) => {
       if (event.key.length === 1 || event.key === " ") {
         const letter = document.createElement("span");
         letter.textContent = event.key;
-
-        // Calculate position relative to paper
-        const spotRect = typingSpot.getBoundingClientRect();
-        const paperRect = paper.getBoundingClientRect();
-        const relX = spotRect.left - paperRect.left;
-        const relY = spotRect.top - paperRect.top;
-
         letter.style.position = "absolute";
-        letter.style.left = relX + "px";
-        letter.style.top = relY + "px";
-
+        letter.style.left = nextLetterX + "px";
+        letter.style.top = "0px";
         textLayer.appendChild(letter);
 
-        event.preventDefault(); // stop scrolling / default typing
+        nextLetterX += step;  // move typing position for next letter
+
+        event.preventDefault(); // prevent default scrolling
+      }
+      // Backspace removes last letter
+      if (event.key === "Backspace") {
+        const letters = textLayer.querySelectorAll("span");
+        if (letters.length > 0) {
+          letters[letters.length - 1].remove();
+          nextLetterX -= step;
+        }
       }
     });
   </script>
-
 </body>
 </html>

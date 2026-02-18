@@ -26,11 +26,23 @@
       max-width: 1800px; 
       height: auto;      
       z-index: 1;
+      #paper-text {
+        position: absolute;
+        top: 120px;     /* adjust until it sits where the roller is */
+        left: 80px;     /* gives you a margin */
+        font-family: "Courier New", monospace;
+        font-size: 20px;
+        white-space: nowrap; /* prevents wrapping */
+}
     }
   </style>
 </head>
 <body>
-  <img id="paper" src="images/paper.png" alt="Paper">
+  <div id="paper">
+      <img id="paper" src="images/paper.png" alt="Paper">
+        <div id="paper-text">
+          
+        </div>
   <img id="typewriter-bar" src="images/twfront.png" alt="Typewriter Bar">
   
   <script>
@@ -58,6 +70,19 @@ document.addEventListener("keyup", (event) => {
 
   // apply movement
   paper.style.transform = `translateX(calc(-50% - ${offset}px))`;
+});
+    const textLayer = document.getElementById("paper-text");
+
+document.addEventListener("keydown", (event) => {
+
+  if (event.key.length === 1) {
+
+    const letter = document.createElement("span");
+    letter.textContent = event.key;
+
+    textLayer.appendChild(letter);
+  }
+
 });
   </script>
 </body>

@@ -71,19 +71,14 @@ document.addEventListener("keyup", (event) => {
   // apply movement
   paper.style.transform = `translateX(calc(-50% - ${offset}px))`;
 });
-    const textLayer = document.getElementById("paper-text");
-
-document.addEventListener("keydown", (event) => {
-
-  if (event.key.length === 1) {
-
     const letter = document.createElement("span");
-    letter.textContent = event.key;
+letter.textContent = event.key;
 
-    textLayer.appendChild(letter);
-  }
+letter.style.position = "absolute";
+letter.style.left = offset + "px";
+letter.style.top = "0px";
 
-});
+textLayer.appendChild(letter);
   </script>
 </body>
 </html>

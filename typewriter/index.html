@@ -111,7 +111,7 @@
         // Compute left so it appears at the fixed typing spot
         const paperRect = paper.getBoundingClientRect();
         const spotRect = typingSpot.getBoundingClientRect();
-        const letterLeft = spotRect.left - paperRect.left;
+        const letterLeft = spotRect.left - paperRect.left -20;
         letter.style.left = letterLeft + "px";
         letter.style.top = "0px";
 

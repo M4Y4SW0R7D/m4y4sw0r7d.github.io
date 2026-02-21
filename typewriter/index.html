@@ -92,7 +92,6 @@
         if (offset < maxLeft) offset += step;
       }
       if (event.key === "Backspace") {
-          event.preventDefault();   // stop deletion
         if (offset > -maxRight) offset -= step;
       }
       paper.style.transform = `translateX(calc(-50% - ${offset}px))`;
@@ -100,6 +99,10 @@
 
     // Stamp letters onto paper on keydown
     document.addEventListener("keydown", (event) => {
+        if (event.key === "Backspace") {
+    event.preventDefault();   // STOP browser default
+    return;                   // don't do anything else
+  }
       if (event.key.length === 1 || event.key === " ") {
         const letter = document.createElement("span");
         letter.textContent = event.key;

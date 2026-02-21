@@ -92,6 +92,7 @@
         if (offset < maxLeft) offset += step;
       }
       if (event.key === "Backspace") {
+          event.preventDefault();   // stop deletion
         if (offset > -maxRight) offset -= step;
       }
       paper.style.transform = `translateX(calc(-50% - ${offset}px))`;
@@ -115,13 +116,6 @@
 
         event.preventDefault(); // prevent default scrolling
       }
-
-      // Backspace removes last letter
-      if (event.key === "Backspace") {
-        const letters = textLayer.querySelectorAll("span");
-        if (letters.length > 0) {
-          letters[letters.length - 1].remove();
-        }
       }
     });
   </script>

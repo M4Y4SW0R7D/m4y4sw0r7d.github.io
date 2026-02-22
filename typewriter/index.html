@@ -12,7 +12,7 @@
     /* Paper container */
     #paper-container {
       position: fixed;
-      bottom: -500px; /* restore original position */
+      bottom: -500px;
       left: 50%;
       transform: translateX(-50%);
       width: 800px;
@@ -49,7 +49,7 @@
     /* Typing area — fixed in center above bar */
     #typing-spot {
       position: fixed;
-      bottom: 60px; /* adjust to sit above bar */
+      bottom: 60px;
       left: 50%;
       transform: translateX(-50%);
       width: 22px;
@@ -86,6 +86,9 @@ let paperLineOffset = 0;
 let keyLocked = false;
 let isEnterPressed = false;
 
+/* 🔒 NEW: cycle lock to prevent ghost shifts */
+let keyCycleLocked = false;
+
 /* ===============================
    UPDATE PAPER TRANSFORM
 =================================*/
@@ -102,6 +105,9 @@ function updatePaperTransform(scale = 1) {
    KEYUP
 =================================*/
 document.addEventListener("keyup", (event) => {
+
+  /* 🔒 unlock cycle AFTER a key completes */
+  keyCycleLocked = false;
 
   if (event.key.length === 1 || event.key === " ") {
     if (offset < maxLeft) offset += step;
@@ -138,6 +144,9 @@ document.addEventListener("keyup", (event) => {
 =================================*/
 document.addEventListener("keydown", (event) => {
 
+  /* 🔒 Prevent double-trigger if key cycle not completed */
+  if (keyCycleLocked) return;
+
   if (event.key === "Backspace") {
     event.preventDefault();
     return;
@@ -152,6 +161,7 @@ document.addEventListener("keydown", (event) => {
   if (isTypingKey && !hasModifier && !keyLocked) {
 
     keyLocked = true;
+    keyCycleLocked = true; // lock cycle until keyup
 
     const letter = document.createElement("span");
     letter.textContent = event.key;

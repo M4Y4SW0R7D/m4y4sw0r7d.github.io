@@ -99,33 +99,40 @@
     });
 
     // Stamp letters onto paper on keydown
-    document.addEventListener("keydown", (event) => {
-        if (event.key === "Backspace") {
-    event.preventDefault();   // STOP browser default
-    return;                   // don't do anything else
+   document.addEventListener("keydown", (event) => {
+
+  if (event.key === "Backspace") {
+    event.preventDefault();
+    return;
   }
-  if (
-    (event.key.length === 1 || event.key === " ") &&
-    !event.metaKey &&
-    !event.ctrlKey &&
-    !event.altKey
-  ) {
-        const letter = document.createElement("span");
-        letter.textContent = event.key;
-        letter.style.position = "absolute";
 
-        // Compute left so it appears at the fixed typing spot
-        const paperRect = paper.getBoundingClientRect();
-        const spotRect = typingSpot.getBoundingClientRect();
-        const letterLeft = spotRect.left - paperRect.left -25;
-        letter.style.left = letterLeft + "px";
-        letter.style.top = "0px";
+  const isTypingKey =
+    event.key.length === 1 || event.key === " ";
 
-        textLayer.appendChild(letter);
+  const hasModifier =
+    event.metaKey || event.ctrlKey || event.altKey;
 
-        event.preventDefault(); // prevent default scrolling
-      }
-    });
+  if (isTypingKey && !hasModifier && !keyLocked) {
+
+    keyLocked = true; // 🔒 lock until key is released
+
+    const letter = document.createElement("span");
+    letter.textContent = event.key;
+    letter.style.position = "absolute";
+
+    const paperRect = paper.getBoundingClientRect();
+    const spotRect = typingSpot.getBoundingClientRect();
+    const letterLeft = spotRect.left - paperRect.left - 25;
+
+    letter.style.left = letterLeft + "px";
+    letter.style.top = "0px";
+
+    textLayer.appendChild(letter);
+
+    event.preventDefault();
+  }
+
+});
   </script>
 </body>
 </html>

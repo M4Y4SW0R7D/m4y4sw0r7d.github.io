@@ -9,7 +9,6 @@
       overflow: hidden;
     }
 
-    /* Paper container */
     #paper-container {
       position: fixed;
       bottom: -500px;
@@ -24,7 +23,6 @@
       display: block;
     }
 
-    /* Text stamped onto paper */
     #paper-text {
       position: absolute;
       top: 100px;
@@ -35,7 +33,6 @@
       white-space: nowrap;
     }
 
-    /* Typewriter bar */
     #typewriter-bar {
       position: fixed;
       bottom: 0;
@@ -46,7 +43,6 @@
       z-index: 1;
     }
 
-    /* Typing area */
     #typing-spot {
       position: fixed;
       bottom: 60px;
@@ -73,7 +69,6 @@
 
 const paper = document.getElementById("paper-container");
 const textLayer = document.getElementById("paper-text");
-const typingSpot = document.getElementById("typing-spot");
 
 const step = 14;
 const maxLeft = 360;
@@ -83,6 +78,7 @@ const lineHeight = 28;
 let offset = 0;
 let textLineOffset = 0;
 let paperLineOffset = 0;
+let column = 0;
 let isEnterPressed = false;
 
 /* ===============================
@@ -112,28 +108,36 @@ document.addEventListener("keydown", (event) => {
     const letter = document.createElement("span");
     letter.textContent = event.key;
     letter.style.position = "absolute";
-
-    const paperRect = paper.getBoundingClientRect();
-    const spotRect = typingSpot.getBoundingClientRect();
-    const letterLeft = spotRect.left - paperRect.left - 25;
-
-    letter.style.left = letterLeft + "px";
+    letter.style.left = (column * step) + "px";
     letter.style.top = textLineOffset + "px";
 
     textLayer.appendChild(letter);
 
+    column++;
     event.preventDefault();
   }
 
-  /* ENTER PRESS (scale effect only) */
+  /* BACKSPACE */
+  if (event.key === "Backspace" && !event.repeat) {
+
+    if (column > 0) {
+      column--;
+
+      const letters = textLayer.querySelectorAll("span");
+      const lastLetter = letters[letters.length - 1];
+      if (lastLetter) lastLetter.remove();
+
+      if (offset > -maxRight) offset -= step;
+      updatePaperTransform(1);
+    }
+
+    event.preventDefault();
+  }
+
+  /* ENTER PRESS SCALE */
   if (event.key === "Enter" && !isEnterPressed) {
     isEnterPressed = true;
     updatePaperTransform(0.97);
-    event.preventDefault();
-  }
-
-  /* PREVENT BACKSPACE NAVIGATION */
-  if (event.key === "Backspace") {
     event.preventDefault();
   }
 
@@ -144,15 +148,9 @@ document.addEventListener("keydown", (event) => {
 =================================*/
 document.addEventListener("keyup", (event) => {
 
-  /* NORMAL TYPING SHIFT */
+  /* NORMAL SHIFT */
   if (event.key.length === 1 || event.key === " ") {
     if (offset < maxLeft) offset += step;
-    updatePaperTransform(1);
-  }
-
-  /* BACKSPACE SHIFT */
-  else if (event.key === "Backspace") {
-    if (offset > -maxRight) offset -= step;
     updatePaperTransform(1);
   }
 
@@ -163,10 +161,11 @@ document.addEventListener("keyup", (event) => {
 
     paper.style.transition = "transform 0.35s ease";
 
-    /* Move text down immediately */
+    /* Move text down */
     textLineOffset += lineHeight;
+    column = 0;
 
-    /* PHASE 1 — paper feeds up */
+    /* PHASE 1 — paper feed */
     paperLineOffset -= lineHeight;
     updatePaperTransform(1);
 
@@ -176,7 +175,6 @@ document.addEventListener("keyup", (event) => {
       offset = -maxRight;
       updatePaperTransform(1);
 
-      /* Disable transition after */
       setTimeout(() => {
         paper.style.transition = "none";
       }, 350);

@@ -84,7 +84,7 @@ const maxLeft = 360;
 const maxRight = 240;
 
 let offset = 0;
-let lineOffset = 0;
+let lineOffset = 0;     // ✅ now actually used
 let isEnterPressed = false;
 let keyLocked = false;
 
@@ -92,8 +92,10 @@ let keyLocked = false;
    TRANSFORM FUNCTION
 =================================*/
 function updatePaperTransform(scale = 1) {
+
   paper.style.transform =
-    `translateX(calc(-50% - ${offset}px)) scale(${scale})`;
+    `translateX(calc(-50% - ${offset}px)) translateY(${lineOffset}px) scale(${scale})`;
+
 }
 
 /* ===============================
@@ -113,10 +115,11 @@ document.addEventListener("keyup", (event) => {
 
     isEnterPressed = false;
 
-    /* ✅ FIXED — return to RIGHT properly */
+    /* ✅ Carriage return */
     offset = -maxRight;
 
-    lineOffset += 25;
+    /* ✅ SHIFT PAPER UP ONE LINE */
+    lineOffset -= 25;   // negative = move paper upward
 
     updatePaperTransform(1);
 

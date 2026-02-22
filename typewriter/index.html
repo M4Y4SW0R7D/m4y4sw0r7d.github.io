@@ -9,24 +9,22 @@
       overflow: hidden;
     }
 
-    /* Paper container that moves with key presses */
+    /* Paper container */
     #paper-container {
       position: fixed;
-      bottom: 0; /* ✅ CHANGED FROM -500px TO 0 */
+      bottom: -500px; /* restore original position */
       left: 50%;
       transform: translateX(-50%);
       width: 800px;
-      height: auto;
       z-index: 0;
     }
 
     #paper {
       width: 800px;
-      height: auto;
       display: block;
     }
 
-    /* Letters stamped onto paper */
+    /* Text stamped onto paper */
     #paper-text {
       position: absolute;
       top: 100px;
@@ -37,7 +35,7 @@
       white-space: nowrap;
     }
 
-    /* Typewriter bar fixed at bottom */
+    /* Typewriter bar */
     #typewriter-bar {
       position: fixed;
       bottom: 0;
@@ -45,14 +43,13 @@
       transform: translateX(-50%);
       width: 100%;
       max-width: 1800px;
-      height: auto;
       z-index: 1;
     }
 
-    /* Typing spot */
+    /* Typing area — fixed in center above bar */
     #typing-spot {
       position: fixed;
-      bottom: -50px;
+      bottom: 60px; /* adjust to sit above bar */
       left: 50%;
       transform: translateX(-50%);
       width: 22px;
@@ -64,14 +61,13 @@
 </head>
 <body>
 
-  <div id="paper-container">
-    <img id="paper" src="images/paper.png">
-    <div id="paper-text"></div>
-  </div>
+<div id="paper-container">
+  <img id="paper" src="images/paper.png">
+  <div id="paper-text"></div>
+</div>
 
-  <img id="typewriter-bar" src="images/twfront.png">
-
-  <div id="typing-spot"></div>
+<img id="typewriter-bar" src="images/twfront.png">
+<div id="typing-spot"></div>
 
 <script>
 
@@ -87,16 +83,18 @@ const lineHeight = 28;
 let offset = 0;
 let textLineOffset = 0;
 let paperLineOffset = 0;
-let isEnterPressed = false;
 let keyLocked = false;
+let isEnterPressed = false;
 
 /* ===============================
-   TRANSFORM FUNCTION
+   UPDATE PAPER TRANSFORM
 =================================*/
 function updatePaperTransform(scale = 1) {
 
   paper.style.transform =
-    `translateX(calc(-50% - ${offset}px)) translateY(${paperLineOffset}px) scale(${scale})`;
+    `translateX(calc(-50% - ${offset}px)) 
+     translateY(${paperLineOffset}px) 
+     scale(${scale})`;
 
 }
 
@@ -119,10 +117,10 @@ document.addEventListener("keyup", (event) => {
 
     offset = -maxRight;
 
-    /* ✅ Text goes down */
+    /* Text moves down */
     textLineOffset += lineHeight;
 
-    /* ✅ Paper goes up */
+    /* Paper moves up */
     paperLineOffset -= lineHeight;
 
     updatePaperTransform(1);
@@ -161,6 +159,7 @@ document.addEventListener("keydown", (event) => {
 
     const paperRect = paper.getBoundingClientRect();
     const spotRect = typingSpot.getBoundingClientRect();
+
     const letterLeft = spotRect.left - paperRect.left - 25;
 
     letter.style.left = letterLeft + "px";
@@ -183,6 +182,5 @@ document.addEventListener("keydown", (event) => {
 });
 
 </script>
-
 </body>
 </html>

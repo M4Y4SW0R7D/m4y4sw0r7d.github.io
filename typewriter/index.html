@@ -168,28 +168,27 @@ document.addEventListener("keydown", (event) => {
 =================================*/
 document.addEventListener("keyup", (event) => {
 
-  if (event.key === "Enter") {
+if (event.key === "Enter") {
 
-    isEnterPressed = false;
+  isEnterPressed = false;
 
-    /* Move text down */
-    textLineOffset += lineHeight;
+  /* Move text down */
+  textLineOffset += lineHeight;
 
-    /* Feed paper up */
-    paperLineOffset -= lineHeight;
+  /* Feed paper up */
+  paperLineOffset -= lineHeight;
 
-    /* Return carriage to right */
-    offset = (paperWidth - rightMargin) / step * step;
+  /* 🔥 Force carriage to far right */
+  offset = maxRight;
 
-    column = 0;
+  paper.style.transition = "transform 0.35s ease";
+  updatePaperTransform(1);
 
-    paper.style.transition = "transform 0.35s ease";
-    updatePaperTransform(1);
+  setTimeout(() => {
+    paper.style.transition = "none";
+  }, 350);
 
-    setTimeout(() => {
-      paper.style.transition = "none";
-    }, 350);
-  }
+}
 
 });
 

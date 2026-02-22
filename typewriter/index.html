@@ -1,59 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <style>
-    body {
-      margin: 0;
-      background: black;
-      height: 100vh;
-      overflow: hidden;
-    }
+<style>
+body {
+  margin: 0;
+  background: black;
+  height: 100vh;
+  overflow: hidden;
+}
 
-    #paper-container {
-      position: fixed;
-      bottom: -500px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 800px;
-      z-index: 0;
-    }
+/* Paper */
+#paper-container {
+  position: fixed;
+  bottom: -500px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  z-index: 0;
+  transition: transform 0.35s ease;
+}
 
-    #paper {
-      width: 800px;
-      display: block;
-    }
+#paper {
+  width: 800px;
+  display: block;
+}
 
-    #paper-text {
-      position: absolute;
-      top: 100px;
-      left: 0px;
-      font-family: "Courier New", monospace;
-      font-size: 22px;
-      color: black;
-      white-space: nowrap;
-    }
+/* Text */
+#paper-text {
+  position: absolute;
+  top: 100px;
+  left: 0px;
+  font-family: "Courier New", monospace;
+  font-size: 22px;
+  color: black;
+  white-space: nowrap;
+}
 
-    #typewriter-bar {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 1800px;
-      z-index: 1;
-    }
+/* Typewriter bar */
+#typewriter-bar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1800px;
+  z-index: 1;
+}
 
-    #typing-spot {
-      position: fixed;
-      bottom: 60px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 22px;
-      height: 20px;
-      pointer-events: none;
-      z-index: 2;
-    }
-  </style>
+/* Typing spot */
+#typing-spot {
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 20px;
+  pointer-events: none;
+  z-index: 2;
+}
+</style>
 </head>
 <body>
 
@@ -69,11 +74,21 @@
 
 const paper = document.getElementById("paper-container");
 const textLayer = document.getElementById("paper-text");
+const typingSpot = document.getElementById("typing-spot");
+
+/* =======================
+   CONFIG
+======================= */
 
 const step = 14;
-const maxLeft = 360;
-const maxRight = 240;
 const lineHeight = 28;
+
+const paperWidth = 800;
+const leftMargin = 80;
+const rightMargin = 80;
+
+const usableWidth = paperWidth - leftMargin - rightMargin;
+const maxColumns = Math.floor(usableWidth / step);
 
 let offset = 0;
 let textLineOffset = 0;
@@ -81,19 +96,23 @@ let paperLineOffset = 0;
 let column = 0;
 let isEnterPressed = false;
 
-/* ===============================
-   UPDATE PAPER TRANSFORM
-=================================*/
+/* =======================
+   UPDATE TRANSFORM
+======================= */
+
 function updatePaperTransform(scale = 1) {
+
   paper.style.transform =
     `translateX(calc(-50% - ${offset}px))
      translateY(${paperLineOffset}px)
      scale(${scale})`;
+
 }
 
-/* ===============================
-   KEYDOWN (Typing happens here)
-=================================*/
+/* =======================
+   KEYDOWN
+======================= */
+
 document.addEventListener("keydown", (event) => {
 
   const isTypingKey =
@@ -102,13 +121,13 @@ document.addEventListener("keydown", (event) => {
   const hasModifier =
     event.metaKey || event.ctrlKey || event.altKey;
 
-  /* TYPE LETTER */
-  if (isTypingKey && !hasModifier && !event.repeat) {
+  /* ---- TYPE LETTER ---- */
+  if (isTypingKey && !hasModifier && !event.repeat && column < maxColumns) {
 
     const letter = document.createElement("span");
     letter.textContent = event.key;
     letter.style.position = "absolute";
-    letter.style.left = (column * step) + "px";
+    letter.style.left = (leftMargin + column * step) + "px";
     letter.style.top = textLineOffset + "px";
 
     textLayer.appendChild(letter);
@@ -117,62 +136,68 @@ document.addEventListener("keydown", (event) => {
     event.preventDefault();
   }
 
-  /* BACKSPACE */
+  /* ---- BACKSPACE ---- */
   if (event.key === "Backspace" && !event.repeat) {
 
     if (column > 0) {
+
       column--;
 
       const letters = textLayer.querySelectorAll("span");
-      const lastLetter = letters[letters.length - 1];
-      if (lastLetter) lastLetter.remove();
+      const last = letters[letters.length - 1];
+      if (last) last.remove();
 
-      if (offset > -maxRight) offset -= step;
+      offset = column * step;
       updatePaperTransform(1);
     }
 
     event.preventDefault();
   }
 
-  /* ENTER PRESS SCALE */
+  /* ---- ENTER PRESS (scale effect) ---- */
   if (event.key === "Enter" && !isEnterPressed) {
+
     isEnterPressed = true;
-    updatePaperTransform(0.97);
+    paper.style.transform =
+      `translateX(calc(-50% - ${offset}px))
+       translateY(${paperLineOffset}px)
+       scale(0.97)`;
+
     event.preventDefault();
   }
 
 });
 
-/* ===============================
-   KEYUP (Movement happens here)
-=================================*/
+/* =======================
+   KEYUP
+======================= */
+
 document.addEventListener("keyup", (event) => {
 
-  /* NORMAL SHIFT */
+  /* ---- Normal typing movement ---- */
   if (event.key.length === 1 || event.key === " ") {
-    if (offset < maxLeft) offset += step;
+
+    offset = column * step;
     updatePaperTransform(1);
   }
 
-  /* ENTER SEQUENCE */
+  /* ---- ENTER RELEASE (carriage animation) ---- */
   else if (event.key === "Enter") {
 
     isEnterPressed = false;
 
-    paper.style.transition = "transform 0.35s ease";
-
-    /* Move text down */
     textLineOffset += lineHeight;
     column = 0;
 
-    /* PHASE 1 — paper feed */
     paperLineOffset -= lineHeight;
+
+    paper.style.transition = "transform 0.35s ease";
+
     updatePaperTransform(1);
 
-    /* PHASE 2 — carriage return */
     setTimeout(() => {
 
-      offset = -maxRight;
+      offset = 0;
       updatePaperTransform(1);
 
       setTimeout(() => {

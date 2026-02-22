@@ -75,14 +75,12 @@ body {
 const paper = document.getElementById("paper-container");
 const textLayer = document.getElementById("paper-text");
 const typingSpot = document.getElementById("typing-spot");
-
+const maxRight = 360;
 const step = 14;
 const lineHeight = 28;
 const paperWidth = 800;
-
 const leftMargin = 80;
 const rightMargin = 80;
-
 const usableWidth = paperWidth - leftMargin - rightMargin;
 
 let offset = 0;
@@ -179,7 +177,7 @@ if (event.key === "Enter") {
   paperLineOffset -= lineHeight;
 
   /* 🔥 Force carriage to far right */
- offset = Math.max(0, column * step);
+offset = maxRight;
 
   paper.style.transition = "transform 0.35s ease";
   updatePaperTransform(1);

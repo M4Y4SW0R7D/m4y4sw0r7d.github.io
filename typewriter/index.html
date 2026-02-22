@@ -25,7 +25,7 @@ body {
   display: block;
 }
 
-/* Text */
+/* Text stamped on paper */
 #paper-text {
   position: absolute;
   top: 100px;
@@ -47,6 +47,7 @@ body {
   z-index: 1;
 }
 
+/* Fixed typing spot */
 #typing-spot {
   position: fixed;
   bottom: 60px;
@@ -73,13 +74,10 @@ body {
 
 const paper = document.getElementById("paper-container");
 const textLayer = document.getElementById("paper-text");
+const typingSpot = document.getElementById("typing-spot");
 
 const step = 14;
 const lineHeight = 28;
-
-const paperWidth = 800;
-const leftMargin = 80;
-const rightMargin = 80;
 
 let offset = 0;
 let textLineOffset = 0;
@@ -87,23 +85,19 @@ let paperLineOffset = 0;
 let column = 0;
 let isEnterPressed = false;
 
-/* ======================= */
-/* TRANSFORM */
-/* ======================= */
-
+/* ===============================
+   UPDATE TRANSFORM
+=================================*/
 function updatePaperTransform(scale = 1) {
-
   paper.style.transform =
     `translateX(calc(-50% - ${offset}px))
      translateY(${paperLineOffset}px)
      scale(${scale})`;
-
 }
 
-/* ======================= */
-/* KEYDOWN */
-/* ======================= */
-
+/* ===============================
+   KEYDOWN
+=================================*/
 document.addEventListener("keydown", (event) => {
 
   const isTypingKey =
@@ -112,33 +106,43 @@ document.addEventListener("keydown", (event) => {
   const hasModifier =
     event.metaKey || event.ctrlKey || event.altKey;
 
-  /* TYPE LETTER */
+  /* ---- TYPE LETTER ---- */
   if (isTypingKey && !hasModifier && !event.repeat) {
 
     const letter = document.createElement("span");
     letter.textContent = event.key;
     letter.style.position = "absolute";
 
-    letter.style.left = (leftMargin + column * step) + "px";
+    /* ALWAYS FIXED TO THE VIEWPORT */
+    const typingRect = typingSpot.getBoundingClientRect();
+    const paperRect = paper.getBoundingClientRect();
+
+    const leftPosition = typingRect.left - paperRect.left - 25;
+
+    letter.style.left = leftPosition + "px";
     letter.style.top = textLineOffset + "px";
 
     textLayer.appendChild(letter);
 
-    column++; // just keep increasing — no limit
-
-    event.preventDefault();
-  }
-
-  /* BACKSPACE = move paper only */
-  if (event.key === "Backspace") {
-
-    offset = Math.max(0, offset - step);
+    column++;
+    offset = column * step;
     updatePaperTransform(1);
 
     event.preventDefault();
   }
 
-  /* ENTER PRESS (scale effect) */
+  /* ---- BACKSPACE ---- */
+  if (event.key === "Backspace") {
+
+    offset = Math.max(0, offset - step);
+    column = Math.max(0, column - 1);
+
+    updatePaperTransform(1);
+
+    event.preventDefault();
+  }
+
+  /* ---- ENTER PRESS ---- */
   if (event.key === "Enter" && !isEnterPressed) {
 
     isEnterPressed = true;
@@ -153,41 +157,26 @@ document.addEventListener("keydown", (event) => {
 
 });
 
-/* ======================= */
-/* KEYUP */
-/* ======================= */
-
+/* ===============================
+   KEYUP
+=================================*/
 document.addEventListener("keyup", (event) => {
 
-  /* NORMAL SHIFT */
-  if (event.key.length === 1 || event.key === " ") {
-
-    offset = column * step;
-    updatePaperTransform(1);
-  }
-
-  /* ENTER RELEASE */
-  else if (event.key === "Enter") {
+  if (event.key === "Enter") {
 
     isEnterPressed = false;
 
     textLineOffset += lineHeight;
-    column = 0;
-
     paperLineOffset -= lineHeight;
+
+    column = 0;
+    offset = 0;
 
     paper.style.transition = "transform 0.35s ease";
     updatePaperTransform(1);
 
     setTimeout(() => {
-
-      offset = 0;
-      updatePaperTransform(1);
-
-      setTimeout(() => {
-        paper.style.transition = "none";
-      }, 350);
-
+      paper.style.transition = "none";
     }, 350);
   }
 

@@ -102,17 +102,25 @@
       
       if (event.key === "Enter") {
 
-  isEnterPressed = false;
+    isEnterPressed = false;
 
-  // Reset horizontal position but scale back to normal
-  paper.style.transform =
-    `translateX(calc(-50% - ${offset}px)) scale(1)`;
+    // Carriage return — jump to far right
+    offset = maxRight;
 
-  // Move paper up one line
-  lineOffset += 25;
+    // Move paper up one line
+    lineOffset += 25;
 
-  paper.style.bottom = `calc(-500px + ${lineOffset}px)`;
-}
+    // Reset scale back to normal + apply new offset
+    paper.style.transform =
+      `translateX(calc(-50% - ${offset}px)) scale(1)`;
+
+  }
+
+  else {
+    // Normal movement update (keeps things consistent)
+    paper.style.transform =
+      `translateX(calc(-50% - ${offset}px)) scale(1)`;
+  }
     });
 
     // Stamp letters onto paper on keydown

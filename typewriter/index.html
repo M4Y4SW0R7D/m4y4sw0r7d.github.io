@@ -82,6 +82,7 @@ const typingSpot = document.getElementById("typing-spot");
 const step = 14;
 const maxLeft = 360;
 const maxRight = 240;
+const lineHeight = 28;
 
 let offset = 0;
 let lineOffset = 0;     // ✅ now actually used
@@ -119,7 +120,7 @@ document.addEventListener("keyup", (event) => {
     offset = -maxRight;
 
     /* ✅ SHIFT PAPER UP ONE LINE */
-    lineOffset -= 25;   // negative = move paper upward
+    lineOffset -= lineHeight;
 
     updatePaperTransform(1);
 

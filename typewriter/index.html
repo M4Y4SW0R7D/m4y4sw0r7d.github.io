@@ -179,7 +179,7 @@ if (event.key === "Enter") {
   paperLineOffset -= lineHeight;
 
   /* 🔥 Force carriage to far right */
-  offset = maxRight;
+ offset = Math.max(0, column * step);
 
   paper.style.transition = "transform 0.35s ease";
   updatePaperTransform(1);

@@ -79,6 +79,7 @@ const step = 14;
 const maxLeft = 372;
 const maxRight = 320;
 const lineHeight = 28;
+const bottomMargin = 120; 
 
 let offset = 0;
 let textLineOffset = 0;
@@ -98,6 +99,10 @@ function updatePaperTransform(scale = 1) {
     `translateX(calc(-50% - ${offset}px)) 
      translateY(${paperLineOffset}px) 
      scale(${scale})`;
+}
+function isAtBottom() {
+  const paperHeight = paper.offsetHeight;
+  return textLineOffset >= paperHeight - bottomMargin;
 }
 
 /* ===============================

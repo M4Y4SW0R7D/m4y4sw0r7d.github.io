@@ -85,6 +85,7 @@ let textLineOffset = 0;
 let paperLineOffset = 0;
 let keyLocked = false;
 let isEnterPressed = false;
+let letterWasStamped = false;
 
 /* 🔒 NEW: prevents double key-trigger glitches */
 let keyCycleLocked = false;
@@ -136,6 +137,7 @@ document.addEventListener("keydown", (event) => {
     letter.style.top = textLineOffset + "px";
 
     textLayer.appendChild(letter);
+    letterWasStamped = true;
 
     event.preventDefault();
   }
@@ -157,9 +159,10 @@ document.addEventListener("keyup", (event) => {
   /* 🔓 Unlock cycle when key fully releases */
   keyCycleLocked = false;
 
-  if (event.key.length === 1 || event.key === " ") {
+if (letterWasStamped) {
     if (offset < maxLeft) offset += step;
-  }
+    letterWasStamped = false;
+}
 
   if (event.key === "Backspace") {
     if (offset > -maxRight) offset -= step;

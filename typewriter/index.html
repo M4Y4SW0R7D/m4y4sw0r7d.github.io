@@ -75,6 +75,7 @@ body {
 const paper = document.getElementById("paper-container");
 const textLayer = document.getElementById("paper-text");
 const typingSpot = document.getElementById("typing-spot");
+
 const maxRight = 360;
 const step = 14;
 const lineHeight = 28;
@@ -128,18 +129,18 @@ document.addEventListener("keydown", (event) => {
     textLayer.appendChild(letter);
 
     column++;
-
     offset = column * step;
+
     updatePaperTransform(1);
 
     event.preventDefault();
   }
 
-  /* BACKSPACE */
+  /* BACKSPACE  ✅ FIXED — COLUMN BASED */
   if (event.key === "Backspace") {
 
-    offset = Math.max(0, offset - step);
     column = Math.max(0, column - 1);
+    offset = column * step;
 
     updatePaperTransform(1);
 
@@ -176,8 +177,8 @@ if (event.key === "Enter") {
   /* Feed paper up */
   paperLineOffset -= lineHeight;
 
-  /* 🔥 Force carriage to far right */
-offset = maxRight;
+  /* Force carriage to far right */
+  offset = maxRight;
 
   paper.style.transition = "transform 0.35s ease";
   updatePaperTransform(1);

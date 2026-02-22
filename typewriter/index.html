@@ -103,7 +103,12 @@
     event.preventDefault();   // STOP browser default
     return;                   // don't do anything else
   }
-      if (event.key.length === 1 || event.key === " ") {
+  if (
+    (event.key.length === 1 || event.key === " ") &&
+    !event.metaKey &&
+    !event.ctrlKey &&
+    !event.altKey
+  ) {
         const letter = document.createElement("span");
         letter.textContent = event.key;
         letter.style.position = "absolute";

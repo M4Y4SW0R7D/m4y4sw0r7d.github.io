@@ -84,7 +84,8 @@
     const step = 14;       // pixels per keystroke
     const maxLeft = 360;
     const maxRight = 240;
-    let offset = 0;         // paper offset left/right
+    let offset = 0;
+    let keyLocked = false;
 
     // Move paper on key release
     document.addEventListener("keyup", (event) => {

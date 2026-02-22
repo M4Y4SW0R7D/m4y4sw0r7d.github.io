@@ -96,6 +96,7 @@
         if (offset > -maxRight) offset -= step;
       }
       paper.style.transform = `translateX(calc(-50% - ${offset}px))`;
+      keyLocked = false;
     });
 
     // Stamp letters onto paper on keydown

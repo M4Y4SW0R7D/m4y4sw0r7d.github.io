@@ -106,38 +106,39 @@ document.addEventListener("keyup", (event) => {
 
   if (event.key.length === 1 || event.key === " ") {
     if (offset < maxLeft) offset += step;
+    updatePaperTransform(1);
   }
 
-if (event.key === "Enter") {
+  else if (event.key === "Backspace") {
+    if (offset > -maxRight) offset -= step;
+    updatePaperTransform(1);
+  }
 
-  isEnterPressed = false;
+  else if (event.key === "Enter") {
 
-  paper.style.transition = "transform 0.35s ease";
+    isEnterPressed = false;
 
-  /* PHASE 1 — horizontal carriage return */
-  offset = -maxRight;
-  updatePaperTransform(1);
+    paper.style.transition = "transform 0.35s ease";
 
-  /* PHASE 2 — after horizontal finishes, feed paper */
-  setTimeout(() => {
-
-    paperLineOffset -= lineHeight;
+    /* PHASE 1 — horizontal carriage return */
+    offset = -maxRight;
     updatePaperTransform(1);
 
-    /* remove transition after vertical finishes */
+    /* PHASE 2 — after horizontal finishes, feed paper */
     setTimeout(() => {
-      paper.style.transition = "none";
+
+      paperLineOffset -= lineHeight;
+      updatePaperTransform(1);
+
+      /* remove transition after vertical finishes */
+      setTimeout(() => {
+        paper.style.transition = "none";
+      }, 350);
+
     }, 350);
 
-  }, 350);
-
-  /* text still moves immediately */
-  textLineOffset += lineHeight;
-}
-
-  } else {
-
-    updatePaperTransform(1);
+    /* text moves immediately */
+    textLineOffset += lineHeight;
   }
 
   keyLocked = false;

@@ -57,6 +57,13 @@
       pointer-events: none;
       z-index: 2;
     }
+    /* Finished page state */
+.finished-page {
+  bottom: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, 50%) scale(0.6) !important;
+  transition: all 0.6s ease;
+}
   </style>
 </head>
 <body>
@@ -87,6 +94,7 @@ let paperLineOffset = 0;
 let keyLocked = false;
 let isEnterPressed = false;
 let letterWasStamped = false;
+let pageFinished = false;
 
 /* 🔒 NEW: prevents double key-trigger glitches */
 let keyCycleLocked = false;
@@ -100,6 +108,7 @@ function updatePaperTransform(scale = 1) {
      translateY(${paperLineOffset}px) 
      scale(${scale})`;
 }
+const bottomMargin = 120;
 function isAtBottom() {
   const paperHeight = paper.offsetHeight;
   return textLineOffset >= paperHeight - bottomMargin;
@@ -173,16 +182,26 @@ if (letterWasStamped) {
     if (offset > -maxRight) offset -= step;
   }
 
-  if (event.key === "Enter") {
+if (event.key === "Enter") {
 
-    isEnterPressed = false;
+  isEnterPressed = false;
 
-    offset = -maxRight;
+  if (isAtBottom() && !pageFinished) {
 
-    textLineOffset += lineHeight;
-    paperLineOffset -= lineHeight;
+    pageFinished = true;
 
-    updatePaperTransform(1);
+    paper.classList.add("finished-page");
+
+    return;
+  }
+
+  offset = -maxRight;
+
+  textLineOffset += lineHeight;
+  paperLineOffset -= lineHeight;
+
+  updatePaperTransform(1);
+}
 
   } else {
 

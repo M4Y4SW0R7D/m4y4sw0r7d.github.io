@@ -12,12 +12,11 @@
     /* Paper container */
     #paper-container {
       position: fixed;
-      bottom: -500px; /* restore original position */
+      bottom: -500px;
       left: 50%;
       transform: translateX(-50%);
       width: 800px;
       z-index: 0;
-      transition: transform 0.3s ease;
     }
 
     #paper {
@@ -47,10 +46,10 @@
       z-index: 1;
     }
 
-    /* Typing area — fixed in center above bar */
+    /* Typing area */
     #typing-spot {
       position: fixed;
-      bottom: 60px; /* adjust to sit above bar */
+      bottom: 60px;
       left: 50%;
       transform: translateX(-50%);
       width: 22px;
@@ -84,74 +83,22 @@ const lineHeight = 28;
 let offset = 0;
 let textLineOffset = 0;
 let paperLineOffset = 0;
-let keyLocked = false;
 let isEnterPressed = false;
 
 /* ===============================
    UPDATE PAPER TRANSFORM
 =================================*/
 function updatePaperTransform(scale = 1) {
-
   paper.style.transform =
-    `translateX(calc(-50% - ${offset}px)) 
-     translateY(${paperLineOffset}px) 
+    `translateX(calc(-50% - ${offset}px))
+     translateY(${paperLineOffset}px)
      scale(${scale})`;
-
 }
 
 /* ===============================
-   KEYUP
-=================================*/
-document.addEventListener("keyup", (event) => {
-
-  if (event.key.length === 1 || event.key === " ") {
-    if (offset < maxLeft) offset += step;
-    updatePaperTransform(1);
-  }
-
-  else if (event.key === "Backspace") {
-    if (offset > -maxRight) offset -= step;
-    updatePaperTransform(1);
-  }
-
- else if (event.key === "Enter") {
-
-  isEnterPressed = false;
-
-  paper.style.transition = "transform 0.35s ease";
-
-  /* Move text immediately */
-  textLineOffset += lineHeight;
-
-  /* PHASE 1 — paper feeds up first */
-  paperLineOffset -= lineHeight;
-  updatePaperTransform(1);
-
-  /* PHASE 2 — after feed finishes, carriage returns */
-  setTimeout(() => {
-
-    offset = -maxRight;
-    updatePaperTransform(1);
-
-    /* turn off transition after horizontal finishes */
-    setTimeout(() => {
-      paper.style.transition = "none";
-    }, 350);
-
-  }, 350);
- }
-  keyLocked = false;
-});
-
-/* ===============================
-   KEYDOWN
+   KEYDOWN (Typing happens here)
 =================================*/
 document.addEventListener("keydown", (event) => {
-
-  if (event.key === "Backspace") {
-    event.preventDefault();
-    return;
-  }
 
   const isTypingKey =
     event.key.length === 1 || event.key === " ";
@@ -159,9 +106,8 @@ document.addEventListener("keydown", (event) => {
   const hasModifier =
     event.metaKey || event.ctrlKey || event.altKey;
 
-  if (isTypingKey && !hasModifier && !keyLocked) {
-
-    keyLocked = true;
+  /* TYPE LETTER */
+  if (isTypingKey && !hasModifier && !event.repeat) {
 
     const letter = document.createElement("span");
     letter.textContent = event.key;
@@ -169,7 +115,6 @@ document.addEventListener("keydown", (event) => {
 
     const paperRect = paper.getBoundingClientRect();
     const spotRect = typingSpot.getBoundingClientRect();
-
     const letterLeft = spotRect.left - paperRect.left - 25;
 
     letter.style.left = letterLeft + "px";
@@ -180,13 +125,63 @@ document.addEventListener("keydown", (event) => {
     event.preventDefault();
   }
 
+  /* ENTER PRESS (scale effect only) */
   if (event.key === "Enter" && !isEnterPressed) {
-
     isEnterPressed = true;
-
     updatePaperTransform(0.97);
-
     event.preventDefault();
+  }
+
+  /* PREVENT BACKSPACE NAVIGATION */
+  if (event.key === "Backspace") {
+    event.preventDefault();
+  }
+
+});
+
+/* ===============================
+   KEYUP (Movement happens here)
+=================================*/
+document.addEventListener("keyup", (event) => {
+
+  /* NORMAL TYPING SHIFT */
+  if (event.key.length === 1 || event.key === " ") {
+    if (offset < maxLeft) offset += step;
+    updatePaperTransform(1);
+  }
+
+  /* BACKSPACE SHIFT */
+  else if (event.key === "Backspace") {
+    if (offset > -maxRight) offset -= step;
+    updatePaperTransform(1);
+  }
+
+  /* ENTER SEQUENCE */
+  else if (event.key === "Enter") {
+
+    isEnterPressed = false;
+
+    paper.style.transition = "transform 0.35s ease";
+
+    /* Move text down immediately */
+    textLineOffset += lineHeight;
+
+    /* PHASE 1 — paper feeds up */
+    paperLineOffset -= lineHeight;
+    updatePaperTransform(1);
+
+    /* PHASE 2 — carriage return */
+    setTimeout(() => {
+
+      offset = -maxRight;
+      updatePaperTransform(1);
+
+      /* Disable transition after */
+      setTimeout(() => {
+        paper.style.transition = "none";
+      }, 350);
+
+    }, 350);
   }
 
 });

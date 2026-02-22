@@ -85,6 +85,8 @@
     const maxLeft = 360;
     const maxRight = 240;
     let offset = 0;
+    let lineOffset = 0;
+    let isEnterPressed = false;
     let keyLocked = false;
 
     // Move paper on key release
@@ -97,6 +99,20 @@
       }
       paper.style.transform = `translateX(calc(-50% - ${offset}px))`;
       keyLocked = false;
+      
+      if (event.key === "Enter") {
+
+  isEnterPressed = false;
+
+  // Reset horizontal position but scale back to normal
+  paper.style.transform =
+    `translateX(calc(-50% - ${offset}px)) scale(1)`;
+
+  // Move paper up one line
+  lineOffset += 25;
+
+  paper.style.bottom = `calc(-500px + ${lineOffset}px)`;
+}
     });
 
     // Stamp letters onto paper on keydown
@@ -132,6 +148,16 @@
 
     event.preventDefault();
   }
+     if (event.key === "Enter" && !isEnterPressed) {
+
+  isEnterPressed = true;
+
+  // Shrink paper slightly
+  paper.style.transform =
+    `translateX(calc(-50% - ${offset}px)) scale(0.97)`;
+
+  event.preventDefault();
+}
 
 });
   </script>

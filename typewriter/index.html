@@ -161,7 +161,7 @@ document.addEventListener("keydown", (event) => {
     const letterLeft = spotRect.left - paperRect.left - 25;
 
     letter.style.left = letterLeft + "px";
-    letter.style.top = "0px";
+    letter.style.top = lineOffset + "px";
 
     textLayer.appendChild(letter);
 

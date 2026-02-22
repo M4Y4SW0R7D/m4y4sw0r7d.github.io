@@ -12,7 +12,7 @@
     /* Paper container that moves with key presses */
     #paper-container {
       position: fixed;
-      bottom: -500px;
+      bottom: 0; /* ✅ CHANGED FROM -500px TO 0 */
       left: 50%;
       transform: translateX(-50%);
       width: 800px;
@@ -85,7 +85,8 @@ const maxRight = 240;
 const lineHeight = 28;
 
 let offset = 0;
-let lineOffset = 0;     // ✅ now actually used
+let textLineOffset = 0;
+let paperLineOffset = 0;
 let isEnterPressed = false;
 let keyLocked = false;
 
@@ -95,7 +96,7 @@ let keyLocked = false;
 function updatePaperTransform(scale = 1) {
 
   paper.style.transform =
-    `translateX(calc(-50% - ${offset}px)) translateY(${lineOffset}px) scale(${scale})`;
+    `translateX(calc(-50% - ${offset}px)) translateY(${paperLineOffset}px) scale(${scale})`;
 
 }
 
@@ -116,11 +117,13 @@ document.addEventListener("keyup", (event) => {
 
     isEnterPressed = false;
 
-    /* ✅ Carriage return */
     offset = -maxRight;
 
-    /* ✅ SHIFT PAPER UP ONE LINE */
-    lineOffset += lineHeight;
+    /* ✅ Text goes down */
+    textLineOffset += lineHeight;
+
+    /* ✅ Paper goes up */
+    paperLineOffset -= lineHeight;
 
     updatePaperTransform(1);
 
@@ -161,7 +164,7 @@ document.addEventListener("keydown", (event) => {
     const letterLeft = spotRect.left - paperRect.left - 25;
 
     letter.style.left = letterLeft + "px";
-    letter.style.top = lineOffset + "px";
+    letter.style.top = textLineOffset + "px";
 
     textLayer.appendChild(letter);
 

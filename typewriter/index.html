@@ -12,7 +12,7 @@
     /* Paper container that moves with key presses */
     #paper-container {
       position: fixed;
-      bottom: -500px;    /* mostly offscreen initially */
+      bottom: -500px;
       left: 50%;
       transform: translateX(-50%);
       width: 800px;
@@ -28,9 +28,9 @@
 
     /* Letters stamped onto paper */
     #paper-text {
-      position: absolute;   /* relative to paper container */
-      top: 100px;           /* adjust so letters appear above typewriter bar */
-      left: 0px;            /* will be computed dynamically */
+      position: absolute;
+      top: 100px;
+      left: 0px;
       font-family: "Courier New", monospace;
       font-size: 22px;
       color: black;
@@ -49,34 +49,32 @@
       z-index: 1;
     }
 
-    /* Typing spot - invisible fixed box over typewriter bar */
+    /* Typing spot */
     #typing-spot {
       position: fixed;
-      bottom: -50px;       /* adjust to line up with roller */
+      bottom: -50px;
       left: 50%;
       transform: translateX(-50%);
-      width: 22px;        /* width of one letter */
-      height: 20px;       /* letter height */
-      pointer-events: none; /* ignore mouse */
+      width: 22px;
+      height: 20px;
+      pointer-events: none;
       z-index: 2;
     }
   </style>
 </head>
 <body>
 
-  <!-- Paper container -->
   <div id="paper-container">
-    <img id="paper" src="images/paper.png" alt="Paper">
+    <img id="paper" src="images/paper.png">
     <div id="paper-text"></div>
   </div>
 
-  <!-- Typewriter bar -->
-  <img id="typewriter-bar" src="images/twfront.png" alt="Typewriter Bar">
+  <img id="typewriter-bar" src="images/twfront.png">
 
-  <!-- Invisible typing spot -->
   <div id="typing-spot"></div>
 
- <script>
+<script>
+
 const paper = document.getElementById("paper-container");
 const textLayer = document.getElementById("paper-text");
 const typingSpot = document.getElementById("typing-spot");
@@ -115,15 +113,15 @@ document.addEventListener("keyup", (event) => {
 
     isEnterPressed = false;
 
-    // Carriage return
-    offset = maxRight;
+    /* ✅ FIXED — return to RIGHT properly */
+    offset = -maxRight;
+
     lineOffset += 25;
 
     updatePaperTransform(1);
 
   } else {
 
-    // Only update normally if NOT Enter
     updatePaperTransform(1);
   }
 
@@ -176,6 +174,8 @@ document.addEventListener("keydown", (event) => {
   }
 
 });
+
 </script>
+
 </body>
 </html>

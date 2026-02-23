@@ -8,9 +8,10 @@
       height: 100vh;
       overflow: hidden;
     }
+
     #typing-spot {
-  background: red;
-}
+      background: red;
+    }
 
     /* Paper container */
     #paper-container {
@@ -60,7 +61,6 @@
       z-index: 2;
     }
 
-    /* Finished page state */
     .finished-page {
       bottom: 50% !important;
       left: 50% !important;
@@ -99,8 +99,6 @@ let keyLocked = false;
 let isEnterPressed = false;
 let letterWasStamped = false;
 let pageFinished = false;
-
-/* 🔒 prevents double key-trigger glitches */
 let keyCycleLocked = false;
 
 /* ===============================
@@ -144,12 +142,16 @@ document.addEventListener("keydown", (event) => {
     const letter = document.createElement("span");
     letter.textContent = event.key;
     letter.style.position = "absolute";
-    
-    const letterLeft = offset + maxRight - 25;
-    const letterTop = textLineOffset;
-    
-    letter.style.top = letterTop + "px";
+
+    /* ✅ FIXED POSITIONING */
+    const paperRect = paper.getBoundingClientRect();
+    const spotRect = typingSpot.getBoundingClientRect();
+
+    const letterLeft = spotRect.left - paperRect.left - 25;
+    const letterTop = spotRect.top - paperRect.top;
+
     letter.style.left = letterLeft + "px";
+    letter.style.top = letterTop + "px";
 
     textLayer.appendChild(letter);
     letterWasStamped = true;
@@ -199,7 +201,6 @@ document.addEventListener("keyup", (event) => {
     updatePaperTransform(1);
 
   } else {
-
     updatePaperTransform(1);
   }
 

@@ -146,9 +146,8 @@ document.addEventListener("keydown", (event) => {
     /* ✅ FIXED POSITIONING */
     const paperRect = paper.getBoundingClientRect();
     const spotRect = typingSpot.getBoundingClientRect();
-
     const letterLeft = spotRect.left - paperRect.left - 25;
-    const letterTop = spotRect.top - paperRect.top;
+    const letterTop = spotRect.top - paperRect.top - paperLineOffset;
 
     letter.style.left = letterLeft + "px";
     letter.style.top = letterTop + "px";

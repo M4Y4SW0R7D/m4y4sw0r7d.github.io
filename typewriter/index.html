@@ -144,12 +144,10 @@ document.addEventListener("keydown", (event) => {
     const letter = document.createElement("span");
     letter.textContent = event.key;
     letter.style.position = "absolute";
-
-    const paperRect = paper.getBoundingClientRect();
-    const spotRect = typingSpot.getBoundingClientRect();
-
-    const letterLeft = spotRect.left - paperRect.left - 25;
-    const letterTop = spotRect.top - paperRect.top;
+    
+    const letterLeft = offset + maxRight - 25;
+    const letterTop = textLineOffset;
+    
     letter.style.top = letterTop + "px";
     letter.style.left = letterLeft + "px";
 

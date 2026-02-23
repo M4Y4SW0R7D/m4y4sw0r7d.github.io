@@ -52,7 +52,7 @@
     /* Typing area */
     #typing-spot {
       position: fixed;
-      bottom: 5px;
+      bottom: 30px;
       left: 50%;
       transform: translateX(-50%);
       width: 22px;
@@ -150,9 +150,9 @@ document.addEventListener("keydown", (event) => {
     const spotRect = typingSpot.getBoundingClientRect();
 
     const letterLeft = spotRect.left - paperRect.left - 25;
-
+    const letterTop = spotRect.top - paperRect.top;
+    letter.style.top = letterTop + "px";
     letter.style.left = letterLeft + "px";
-    letter.style.top = textLineOffset + "px";
 
     textLayer.appendChild(letter);
     letterWasStamped = true;

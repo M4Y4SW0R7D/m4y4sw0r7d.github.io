@@ -138,6 +138,7 @@ document.addEventListener("keydown", (event) => {
 
     keyLocked = true;
     keyCycleLocked = true;
+    letterWasStamped = true;
 
     const letter = document.createElement("span");
     letter.textContent = event.key;
@@ -171,8 +172,9 @@ document.addEventListener("keyup", (event) => {
 
   keyCycleLocked = false;
 
-if (event.key.length === 1 || event.key === " ") {
+if (letterWasStamped) {
   if (offset < maxLeft) offset += step;
+  letterWasStamped = false;
 }
 
   if (event.key === "Backspace") {

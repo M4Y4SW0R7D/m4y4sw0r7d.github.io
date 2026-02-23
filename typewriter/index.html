@@ -144,16 +144,14 @@ document.addEventListener("keydown", (event) => {
     letter.style.position = "absolute";
 
     /* ✅ FIXED POSITIONING */
-    const paperRect = paper.getBoundingClientRect();
-    const spotRect = typingSpot.getBoundingClientRect();
-    const letterLeft = spotRect.left - paperRect.left - 25;
-    const letterTop = spotRect.top - paperRect.top - paperLineOffset;
+    letter.style.position = "absolute";
+    letter.style.left = "0px";
+    letter.style.top = "0px";
 
-    letter.style.left = letterLeft + "px";
-    letter.style.top = letterTop + "px";
+typingSpot.appendChild(letter);
 
     textLayer.appendChild(letter);
-    letterWasStamped = true;
+
 
     event.preventDefault();
   }
@@ -173,10 +171,9 @@ document.addEventListener("keyup", (event) => {
 
   keyCycleLocked = false;
 
-  if (letterWasStamped) {
-    if (offset < maxLeft) offset += step;
-    letterWasStamped = false;
-  }
+if (event.key.length === 1 || event.key === " ") {
+  if (offset < maxLeft) offset += step;
+}
 
   if (event.key === "Backspace") {
     if (offset > -maxRight) offset -= step;

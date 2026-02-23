@@ -153,8 +153,7 @@ document.addEventListener("keydown", (event) => {
     const paperRect = paper.getBoundingClientRect();
 
     const letterLeft = spotRect.left - paperRect.left;
-    const letterTop = 
-      (spotRect.top - paperRect.top) / (paperRect.width / paper.offsetWidth);
+    const letterTop = spotRect.top - paperRect.top;
 
     letter.style.left = letterLeft + "px";
     letter.style.top = letterTop + "px";

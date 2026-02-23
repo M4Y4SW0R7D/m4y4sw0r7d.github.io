@@ -143,22 +143,20 @@ document.addEventListener("keydown", (event) => {
     const letter = document.createElement("span");
     letter.textContent = event.key;
     letter.style.position = "absolute";
+    letter.style.pointerEvents = "none";
+    letter.style.fontFamily = "Courier New, monospace";
+    letter.style.fontSize = "22px";
+    letter.style.color = "black";
 
-    /* ✅ FIX — stamp relative to typing box but attach to paper */
+    /* ✅ Correct positioning relative to typing box */
     const spotRect = typingSpot.getBoundingClientRect();
     const paperRect = paper.getBoundingClientRect();
 
-/* Convert viewport position → paper local position */
-const letterLeft = spotRect.left - paperRect.left;
-const letterTop = spotRect.top - paperRect.top;
+    const letterLeft = spotRect.left - paperRect.left;
+    const letterTop = spotRect.top - paperRect.top;
 
-/* IMPORTANT: remove paper transform influence */
-letter.style.position = "absolute";
-letter.style.left = letterLeft + "px";
-letter.style.top = letterTop + "px";
-
-    letter.style.left = left + "px";
-    letter.style.top = top + "px";
+    letter.style.left = letterLeft + "px";
+    letter.style.top = letterTop + "px";
 
     textLayer.appendChild(letter);
 

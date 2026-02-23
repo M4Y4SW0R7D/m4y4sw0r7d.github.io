@@ -145,11 +145,17 @@ document.addEventListener("keydown", (event) => {
     letter.style.position = "absolute";
 
     /* ✅ FIX — stamp relative to typing box but attach to paper */
-    const paperRect = paper.getBoundingClientRect();
     const spotRect = typingSpot.getBoundingClientRect();
+    const paperRect = paper.getBoundingClientRect();
 
-    const left = spotRect.left - paperRect.left;
-    const top = spotRect.top - paperRect.top;
+/* Convert viewport position → paper local position */
+const letterLeft = spotRect.left - paperRect.left;
+const letterTop = spotRect.top - paperRect.top;
+
+/* IMPORTANT: remove paper transform influence */
+letter.style.position = "absolute";
+letter.style.left = letterLeft + "px";
+letter.style.top = letterTop + "px";
 
     letter.style.left = left + "px";
     letter.style.top = top + "px";

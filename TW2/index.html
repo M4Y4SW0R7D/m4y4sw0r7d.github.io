@@ -82,16 +82,16 @@
                pageFinished = true;
                machineX = 0;
                paperY = 0;
-               paper.style.position = "relative";
-               paper.style.left = "auto";
-               paper.style.top = "auto";
-               paper.style.transform = "scale(0.4)";
                paper.style.zIndex = "15";
                
-               document.body.style.display = "flex";
-               document.body.style.alignItems = "center";
-               document.body.style.justifyContent = "center";
-            }
+               paper.style.top = "auto";
+               paper.style.left = "auto";
+               
+               paper.style.position = "fixed";
+               paper.style.top = "50%";
+               paper.style.left = "50%";
+               paper.style.transform = "translate(-50%, -50%) scale(0.4)";
+}
          }
          else {
          machineX -= step;

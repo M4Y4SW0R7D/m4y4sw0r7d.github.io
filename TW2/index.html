@@ -64,7 +64,7 @@
       const maxLines = -1000;
       const step = 20; 
       
-      document.addEventListener("keydown", (e) => {
+      document.addEventListener("keyup", (e) => {
          if (e.key === "Backspace") {
             machineX += step;
             e.preventDefault();

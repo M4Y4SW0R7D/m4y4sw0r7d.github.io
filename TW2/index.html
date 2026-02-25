@@ -63,6 +63,8 @@
       let paperY =0;
       const maxLines = -1150;
       const step = 20; 
+
+      let pageFinished = false;
       
       document.addEventListener("keyup", (e) => {
          if (e.key === "Backspace") {
@@ -76,11 +78,13 @@
                machineX = machineMax;
             } 
             else {
-               paper.style.transform = "scale(0.6) translate(-50%, -50%)";
-               paper.style.position = "fixed";
-               paper.style.left = "50%";
+               pageFinished = true;
+               paper.style.bottom = "auto";  
                paper.style.top = "50%";
-            } 
+               paper.style.left = "50%";
+               paper.style.transform = "translate(-50%, -50%) scale(0.6)";
+            }
+         }
          else {
          machineX -= step;
          }
@@ -92,6 +96,7 @@
    });
 
    function updatePosition() {
+      if (pageFinished) return;
       paper.style.transform =`translateX(-50%) translateX(${machineX}px) translateY(${paperY}px)`;
       roll.style.transform = `translateX(-50%) translateX(${machineX}px)`;
    }

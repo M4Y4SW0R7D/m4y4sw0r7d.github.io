@@ -63,6 +63,10 @@
          if (e.key === "Backspace") {
             currentX += step;
             e.preventDefault(); 
+         if (e.key === "Enter") {
+            currentY +=step;
+            e.preventDefault();
+            
          } else {
          currentX -= step;
       }

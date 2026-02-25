@@ -51,6 +51,30 @@
    <img id="tw2roll" src="images/tw2roll.png">
    <img id="tw2paper" src="images/tw2paper.png">
    <img id="tw2bottom" src="images/tw2bottom.png">
+
+   <script>
+      const paper = document.getElementById("tw2paper");
+      const roll = document.getElementById("tw2roll");
+      
+      let currentX = 0;
+      const step = 20; 
+      
+      document.addEventListener("keydown", (e) => {
+         if (e.key === "Backspace") {
+            currentX += step;
+            e.preventDefault(); 
+         } else {
+         currentX -= step;
+      }
+
+      updatePosition();
+   });
+
+   function updatePosition() {
+      paper.style.transform = `translateX(-50%) translateX(${currentX}px)`;
+      roll.style.transform = `translateX(-50%) translateX(${currentX}px)`;
+   }
+</script>
    
    
    

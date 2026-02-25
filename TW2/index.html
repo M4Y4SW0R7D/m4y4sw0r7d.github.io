@@ -80,11 +80,16 @@
             } 
             else {
                pageFinished = true;
-               machineX = machineMax;
+               machineX = 0;
                paperY = 0;
-               paper.style.top = "50%";
-               paper.style.left = "50%";
-               paper.style.transform = "translate(-50%, -50%) scale(0.4)";
+               
+               paper.style.transform = "scale(0.4)";
+               paper.style.left = "auto";
+               paper.style.top = "auto";
+               
+               document.body.style.display = "flex";
+               document.body.style.alignItems = "center";
+               document.body.style.justifyContent = "center";
             }
          }
          else {

@@ -71,13 +71,21 @@
          }
 
          else if (e.key === "Enter") {
-            paperY -= 20;
-            machineX = machineMax;
-         } 
+            if (paperY > maxLines) {
+               paperY -= 20;
+               machineX = machineMax;
+            } 
+            else {
+               paper.style.transform = "scale(0.6) translate(-50%, -50%)";
+               paper.style.position = "fixed";
+               paper.style.left = "50%";
+               paper.style.top = "50%";
+            }
+         }
             
          else {
          machineX -= step;
-      }
+         }
          
          if (machineX < machineMin) machineX = machineMin;
          if (machineX > machineMax) machineX = machineMax;

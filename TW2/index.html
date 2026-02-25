@@ -67,6 +67,8 @@
       let pageFinished = false;
       
       document.addEventListener("keyup", (e) => {
+         if (pageFinished) return;
+         
          if (e.key === "Backspace") {
             machineX += step;
             e.preventDefault();
@@ -80,6 +82,7 @@
             else {
                pageFinished = true;
                machineX = machineMax;
+               paperY = 0;
                paper.style.top = "50%";
                paper.style.left = "50%";
                paper.style.transform = "translate(-50%, -50%) scale(0.4)";

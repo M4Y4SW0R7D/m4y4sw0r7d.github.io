@@ -65,7 +65,12 @@
       document.addEventListener("keydown", (e) => {
          if (e.key === "Backspace") {
             machineX += step;
-            e.preventDefault(); 
+            e.preventDefault();
+
+         else if (e.key === "Enter") {
+            paperY -= 20;
+            machineX = machineMax;
+         } 
             
          } else {
          machineX -= step;

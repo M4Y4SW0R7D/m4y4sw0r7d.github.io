@@ -27,7 +27,6 @@
          #tw2paper {
             position: fixed;
             width: 1000px;
-            top: 400px;
             left: 50%;
             transform: translateX(-50%) scale(1);
             z-index: 2;
@@ -54,6 +53,8 @@
    <script>
       const paper = document.getElementById("tw2paper");
       const roll = document.getElementById("tw2roll");
+
+      paper.style.top = "400px";
 
       const machineMin = -400;
       const machineMax = 400;

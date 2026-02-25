@@ -58,18 +58,19 @@
 
       const machineMin = -800;
       const machineMax = 800;
-      
       let machineX = 0;
+      
       const step = 20; 
       
       document.addEventListener("keydown", (e) => {
          if (e.key === "Backspace") {
-            currentX += step;
+            machineX += step;
             e.preventDefault(); 
             
          } else {
-         currentX -= step;
+         machineX -= step;
       }
+         
          if (machineX < machineMin) machineX = machineMin;
          if (machineX > machineMax) machineX = machineMax;
 

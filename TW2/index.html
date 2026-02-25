@@ -59,7 +59,7 @@
       const machineMin = -800;
       const machineMax = 800;
       
-      let currentX = 0;
+      let machineX = 0;
       const step = 20; 
       
       document.addEventListener("keydown", (e) => {
@@ -77,8 +77,8 @@
    });
 
    function updatePosition() {
-      paper.style.transform = `translateX(-50%) translateX(${currentX}px)`;
-      roll.style.transform = `translateX(-50%) translateX(${currentX}px)`;
+      paper.style.transform = `translateX(-50%) translateX(${machineX}px)`;
+      roll.style.transform = `translateX(-50%) translateX(${machineX}px)`;
    }
 </script>
    

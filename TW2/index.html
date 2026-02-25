@@ -58,7 +58,9 @@
 
       const machineMin = -400;
       const machineMax = 400;
+      
       let machineX = 0;
+      let paperY =0;
       
       const step = 20; 
       
@@ -84,7 +86,7 @@
    });
 
    function updatePosition() {
-      paper.style.transform = `translateX(-50%) translateX(${machineX}px)`;
+      paper.style.transform =`translateX(-50%) translateX(${machineX}px) translateY(${paperY}px)`;
       roll.style.transform = `translateX(-50%) translateX(${machineX}px)`;
    }
 </script>

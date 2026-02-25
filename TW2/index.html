@@ -27,7 +27,7 @@
          #tw2paper {
             position: fixed;
             width: 1000px;
-            bottom: -1000px;
+            top: -1000px;
             left: 50%;
             transform: translateX(-50%) scale(1);
             transform-origin: top center;
@@ -79,11 +79,10 @@
             } 
             else {
                pageFinished = true;
-               paper.style.bottom = "50%";  
-               paper.style.left = "50%";
-               paper.style.position = "fixed";
                paperY = 0;
                machineX = 0;
+               paper.style.top = "50%";
+               paper.style.left = "50%";
                paper.style.transform = "translate(-50%, -50%) scale(0.5)";
             }
          }

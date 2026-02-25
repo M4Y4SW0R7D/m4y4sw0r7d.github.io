@@ -55,6 +55,9 @@
    <script>
       const paper = document.getElementById("tw2paper");
       const roll = document.getElementById("tw2roll");
+
+      const machineMin = -800;
+      const machineMax = 800;
       
       let currentX = 0;
       const step = 20; 
@@ -67,6 +70,8 @@
          } else {
          currentX -= step;
       }
+         if (machineX < machineMin) machineX = machineMin;
+         if (machineX > machineMax) machineX = machineMax;
 
       updatePosition();
    });

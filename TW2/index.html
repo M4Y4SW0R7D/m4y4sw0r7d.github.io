@@ -76,6 +76,28 @@
       const step = 20; 
 
       let pageFinished = false;
+
+      const stampX = window.innerWidth / 2;
+      const stampY = window.innerHeight * 0.55; 
+
+      document.addEventListener("keydown", function(e) {
+         if (pageFinished) return;
+         const paperRect = paper.getBoundingClientRect();
+         
+         const localX = stampX - paperRect.left;
+         const localY = stampY - paperRect.top;
+         const letter = document.createElement("div");
+         letter.textContent = e.key;
+
+         letter.style.position = "absolute";
+         letter.style.left = localX + "px";
+         letter.style.top = localY + "px";
+         letter.style.fontFamily = "Courier New";
+         letter.style.fontSize = "20px";
+         letter.style.color = "black";
+
+         paperContainer.appendChild(letter);
+      });
       
       document.addEventListener("keyup", (e) => {
          if (pageFinished) return;

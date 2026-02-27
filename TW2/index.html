@@ -92,9 +92,10 @@
 
 document.addEventListener("keydown", function(e) {
          if (pageFinished) return;
+         if (e.key.length !== 1) return;
          if (keyIsDown) return;
          keyIsDown = true;
-         if (e.key.length !== 1) return;
+         
                  
 
    const paperRect = paper.getBoundingClientRect();

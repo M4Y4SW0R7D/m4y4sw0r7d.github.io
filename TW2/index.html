@@ -91,22 +91,25 @@
 
       document.addEventListener("keydown", function(e) {
          if (pageFinished) return;
-         const paperRect = paper.getBoundingClientRect();
-         
-         const localX = stampX - paperRect.left;
-         const localY = stampY - paperRect.top;
-         const letter = document.createElement("div");
-         letter.textContent = e.key;
+         if (e.key.length !== 1) return;
 
-         letter.style.position = "absolute";
-         letter.style.left = localX + "px";
-         letter.style.top = localY + "px";
-         letter.style.fontFamily = '"Courier New", monospace';
-         letter.style.fontSize = "20px";
-         letter.style.color = "black";
+   const paperRect = paper.getBoundingClientRect();
+   
+   const localX = stampX - paperRect.left;
+   const localY = stampY - paperRect.top;
 
-         paper.appendChild(letter);
-      });
+   const letter = document.createElement("div");
+   letter.textContent = e.key;
+
+   letter.style.position = "absolute";
+   letter.style.left = localX + "px";
+   letter.style.top = localY + "px";
+   letter.style.fontFamily = '"Courier New", monospace';
+   letter.style.fontSize = "20px";
+   letter.style.color = "black";
+
+   paper.appendChild(letter);
+});
       
       document.addEventListener("keyup", (e) => {
          if (pageFinished) return;

@@ -117,6 +117,7 @@ document.addEventListener("keydown", function(e) {
 });
       
       document.addEventListener("keyup", (e) => {
+         keyIsDown = false;
          if (pageFinished) return;
          
          if (e.key === "Backspace") {

@@ -118,8 +118,7 @@ document.addEventListener("keydown", function(e) {
       
       document.addEventListener("keyup", (e) => {
          if (pageFinished) return;
-         if (!keyIsDown) return;
-         keyIsDown = false;
+       
          if (e.key === "Backspace") {
             machineX += step;
             e.preventDefault();
@@ -144,10 +143,9 @@ document.addEventListener("keydown", function(e) {
                paper.style.left = "50%";
                paper.style.transform = "translate(-50%, -50%) scale(0.4)";
             }
-         }
-         else {
+         if (!keyIsDown) return;
+         keyIsDown = false;
          machineX -= step;
-         }
          
          if (machineX < machineMin) machineX = machineMin;
          if (machineX > machineMax) machineX = machineMax;

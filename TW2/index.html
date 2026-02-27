@@ -24,13 +24,19 @@
             z-index: 1;
          }
 
-         #tw2paper {
+         #paperWrap {
             position: fixed;
-            width: 1000px;
+            top: 400px;
             left: 50%;
-            transform: translateX(-50%) scale(1);
+            transform: translateX(-50%);
+            width: 1000px;
             z-index: 2;
-         }
+}
+
+#tw2paper {
+   width: 100%;
+   display: block;
+}
             
          
          #tw2bottom {
@@ -56,13 +62,16 @@
    
 <body>
    <img id="tw2roll" src="images/tw2roll.png">
+   <div id="paperWrap">
    <img id="tw2paper" src="images/tw2paper.png">
-     <div id="typedText" class="typewriter-text"></div>
+   </div>
+     <div id="typedText" class="typewriter-text">
+     </div>
    <img id="tw2bottom" src="images/tw2bottom.png">
  
 
    <script>
-      const paper = document.getElementById("tw2paper");
+      const paper = document.getElementById("paperWrap");
       const roll = document.getElementById("tw2roll");
 
       paper.style.top = "400px";

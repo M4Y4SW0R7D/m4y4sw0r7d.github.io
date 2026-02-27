@@ -85,13 +85,17 @@
       const step = 20; 
 
       let pageFinished = false;
+      let keyIsDown = false;
 
       const stampX = window.innerWidth / 2.025;
       const stampY = window.innerHeight * 0.7; 
 
       document.addEventListener("keydown", function(e) {
+         keyIsDown = true;
          if (pageFinished) return;
+         if (keyIsDown) return;
          if (e.key.length !== 1) return;
+                 
 
    const paperRect = paper.getBoundingClientRect();
    

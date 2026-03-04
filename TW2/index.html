@@ -90,11 +90,15 @@
       const stampX = window.innerWidth / 2.025;
       const stampY = window.innerHeight * 0.7; 
 
-document.addEventListener("keydown", function(e) {
-         if (pageFinished) return;
-         if (e.key.length !== 1) return;
-         if (keyIsDown) return;
-         keyIsDown = true;
+      
+      document.addEventListener("keydown", function(e) {
+   if (pageFinished) return;
+
+   if (e.key.length === 1) {
+      if (keyIsDown) return;
+      keyIsDown = true;
+   }
+});
          
                  
 

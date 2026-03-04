@@ -116,45 +116,44 @@ document.addEventListener("keydown", function(e) {
    paper.appendChild(letter);
 });
       
-      document.addEventListener("keyup", (e) => {
-         if (pageFinished) return;
-       
-         if (e.key === "Backspace") {
-            machineX += step;
-            e.preventDefault();
-         }
+document.addEventListener("keyup", (e) => {
+   if (pageFinished) return;
 
-         else if (e.key === "Enter") {
-            e.preventDefault();
-            if (paperY > maxLines) {
-               paperY -= 20;
-               machineX = machineMax;
-            } 
-            else {
-               pageFinished = true;
-               machineX = 0;
-               paperY = 0;
-               paper.style.zIndex = "15";
-               
-               paper.style.top = "auto";
-               paper.style.left = "auto";
-               
-               paper.style.position = "fixed";
-               paper.style.top = "50%";
-               paper.style.left = "50%";
-               paper.style.transform = "translate(-50%, -50%) scale(0.4)";
-            }
-            updatePosition();
-         }
-         if (!keyIsDown) return;
-         keyIsDown = false;
-         machineX -= step;
-         
-         if (machineX < machineMin) machineX = machineMin;
-         if (machineX > machineMax) machineX = machineMax;
+   if (e.key === "Backspace") {
+      e.preventDefault();
+      machineX += step;
+
+      if (machineX > machineMax) machineX = machineMax;
 
       updatePosition();
-   });
+      return;
+   }
+
+   if (e.key === "Enter") {
+      e.preventDefault();
+
+      if (paperY > maxLines) {
+         paperY -= 20;
+         machineX = machineMax;
+      } else {
+         pageFinished = true;
+         machineX = 0;
+         paperY = 0;
+      }
+
+      updatePosition();
+      return;
+   }
+
+   if (!keyIsDown) return;
+   keyIsDown = false;
+
+   machineX -= step;
+
+   if (machineX < machineMin) machineX = machineMin;
+
+   updatePosition();
+});
 
    function updatePosition() {
       if (pageFinished) return;

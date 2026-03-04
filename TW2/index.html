@@ -125,6 +125,7 @@ document.addEventListener("keydown", function(e) {
          }
 
          else if (e.key === "Enter") {
+            e.preventDefault();
             if (paperY > maxLines) {
                paperY -= 20;
                machineX = machineMax;
@@ -143,6 +144,7 @@ document.addEventListener("keydown", function(e) {
                paper.style.left = "50%";
                paper.style.transform = "translate(-50%, -50%) scale(0.4)";
             }
+            updatePosition();
          }
          if (!keyIsDown) return;
          keyIsDown = false;
